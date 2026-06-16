@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { Analytics } from "@vercel/analytics/react";
 
 /* ============================================================================
    WC EDGE TERMINAL — dashboard for the World Cup prediction-market model.
@@ -371,14 +372,15 @@ function numberStories(match, play) {
   if (mc && Number.isFinite(mc.model_win_prob) && Number.isFinite(play.entry)) {
     const longYes = play.entrySide === "YES";
     const simProb = longYes ? mc.model_win_prob : 1 - mc.model_win_prob; // chance the bought side pays out
-    const evDollar = simProb - play.entry;                              // binary contract pays $1
-    const c = Math.round(evDollar * 100);
+    const evContract = simProb - play.entry;            // $ profit per contract (pays $1)
+    const roiCapital = play.entry > 0 ? evContract / play.entry : null; // return on entry cost
+    const c = Math.round(evContract * 100);
     stories.push({
       label: `Simulated EV · ${play.outcome} ${play.entrySide}`,
-      value: `${c >= 0 ? "+" : ""}${c}¢ per $1`,
-      tone: evDollar >= 0 ? "up" : "down",
-      meaning: `Across 25,000 simulated versions of this match, the model gives "${play.outcome} ${play.entrySide}" a ${(simProb * 100).toFixed(0)}% chance to pay out. Buying it at ${cents(play.entry)} therefore returns ${c >= 0 ? "an average profit" : "an average loss"} of ${Math.abs(c)}¢ on every $1.`,
-      bias: evDollar >= 0
+      value: `${c >= 0 ? "+" : ""}${c}¢ per contract`,
+      tone: evContract >= 0 ? "up" : "down",
+      meaning: `Across 25,000 simulated versions of this match, the model gives "${play.outcome} ${play.entrySide}" a ${(simProb * 100).toFixed(0)}% chance to pay out. Buying one contract at ${cents(play.entry)} therefore returns ${c >= 0 ? "an average profit" : "an average loss"} of ${Math.abs(c)}¢ per contract — a ${roiPct(roiCapital)} return on the ${cents(play.entry)} you put up (if held to settlement).`,
+      bias: evContract >= 0
         ? `Positive even after stress-testing the probabilities — the edge on the side you're buying survives noise.`
         : `Negative once stressed — the side you're buying may not be the value here.`,
     });
@@ -440,12 +442,12 @@ export default function App() {
   const arbCount = matches.filter(m => m.arb).length;
   const edgeCount = matches.filter(m => !m.arb && analyses[m.id].bestEdge.edge > 5).length;
 
-  // play economics on the bankroll
-  // bankroll math on the RECOMMENDED lock rung (best expected value)
+  // bankroll math on the RECOMMENDED lock rung. Capital here is the COMPLETED-hedge
+  // cost (entry + hedge), since locking the spread deploys both legs.
   const recRung = play?.recommended || null;
   const playPairCost = recRung ? play.entry + recRung.hedge_price : null;
   const playPairs = playPairCost ? Math.floor(BANKROLL / playPairCost) : 0;
-  const playExpValue = recRung ? recRung.expected_lock * playPairs : 0;
+  const playStratValue = recRung ? recRung.strategy_ev * playPairs : 0;
 
   return (
     <div className="term">
@@ -554,6 +556,7 @@ export default function App() {
         .hitcell { position:relative; display:flex; align-items:center; gap:8px; height: 16px; }
         .hitcell i { position:absolute; left:0; top:50%; transform:translateY(-50%); height: 6px; border-radius: 3px; opacity:.35; }
         .hitcell b { position:relative; font-family:'JetBrains Mono',monospace; font-size: 12px; }
+        .hitcell .bandtxt { position:relative; font-family:'JetBrains Mono',monospace; font-size: 9.5px; color: var(--dim); }
 
         /* number stories */
         .stories { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -638,6 +641,7 @@ export default function App() {
       <div className="wrap">
         <header className="top">
           <div className="brand">WC <b>EDGE</b> TERMINAL
+            
             <span className="tag">{dataStatus}</span>
             {modelQuality && (
               <span className="tag">
@@ -721,13 +725,14 @@ export default function App() {
                   </div>
                   <div className="story">
                     <span className="buy">Buy {play.outcome} {play.entrySide}</span> on Kalshi now at <b>{cents(play.entry)}</b>.
-                    The model's raw fair value is <b>{cents(play.rawFair)}</b> — a <b>{cents(Math.abs(play.rawEdge))}</b> {play.rawEdge >= 0 ? "discount" : "premium"}.
-                    {" "}But inputs are missing, so confidence is <b>{confWord(play.confidence)}</b> ({prob(play.confidence)}) and we trust fair only out to{" "}
-                    <b>{cents(play.adjFair)}</b>. <span className="wait">Then wait</span> for the price to drift up: the best risk-adjusted exit is to{" "}
-                    <span className="lock">hedge {play.hedgeSide} around {cents(recRung?.hedge_price)}</span> when {play.outcome} {play.entrySide} reaches{" "}
-                    <b>{cents(recRung?.target)}</b> — that locks <b>{cents(recRung?.lock_profit)}</b>/ct ({roiPct(recRung?.lock_roi)}) with an estimated{" "}
-                    <b style={{ color: hitTone(recRung?.hit_prob) }}>{prob(recRung?.hit_prob)} chance</b> of getting there before kickoff. Expected value{" "}
-                    <b>{cents(recRung?.expected_lock)}</b>/ct.
+                    Raw model fair is <b>{cents(play.rawFair)}</b> ({cents(Math.abs(play.rawEdge))} raw {play.rawEdge >= 0 ? "edge" : "overpay"}); because inputs are missing
+                    we haircut that to a <b>{confWord(play.confidence)}-confidence</b> usable fair of <b>{cents(play.adjFair)}</b> for sizing and the fallback.
+                    {" "}The optimizer still scores hedge targets up to raw fair and picks the best <b>net</b> expected value:{" "}
+                    <span className="wait">wait</span> for {play.outcome} {play.entrySide} to reach <b>{cents(recRung?.target)}</b>, then{" "}
+                    <span className="lock">hedge {play.hedgeSide} near {cents(recRung?.hedge_price)}</span> — completed cost {cents(play.entry + recRung?.hedge_price)},
+                    locking <b>{cents(recRung?.lock_profit)}</b>/ct gross (<b>{cents(recRung?.net_lock_profit)}</b>/ct after fees, {roiPct(recRung?.net_lock_roi)} ROI).
+                    Model puts the chance of reaching it before kickoff at{" "}
+                    <b style={{ color: hitTone(recRung?.hit_prob) }}>~{prob(recRung?.hit_prob)}</b> (band {prob(recRung?.hit_lo)}–{prob(recRung?.hit_hi)}, uncalibrated).
                   </div>
 
                   <div className="path">
@@ -740,28 +745,28 @@ export default function App() {
                     <div className="pnode">
                       <div className="pt" style={{ color: "var(--amber)" }}>{cents(recRung?.target)}</div>
                       <div className="pl">2 · Reaches lock zone</div>
-                      <div className="pd">{prob(recRung?.hit_prob)} modeled chance before kickoff</div>
+                      <div className="pd">~{prob(recRung?.hit_prob)} chance ({prob(recRung?.hit_lo)}–{prob(recRung?.hit_hi)})</div>
                     </div>
                     <div className="parrow">→</div>
                     <div className="pnode">
                       <div className="pt" style={{ color: "var(--cyan)" }}>{cents(recRung?.hedge_price)}</div>
                       <div className="pl">3 · Hedge {play.hedgeSide}</div>
-                      <div className="pd">Locks {cents(recRung?.lock_profit)}/ct, win or lose</div>
+                      <div className="pd">Locks {cents(recRung?.net_lock_profit)}/ct net, win or lose</div>
                     </div>
                   </div>
 
                   <div className="playmetrics">
-                    <div className="pm"><div className="pml">Recommended lock</div><div className="pmv">{cents(recRung?.target)} → {roiPct(recRung?.lock_roi)}</div></div>
-                    <div className="pm"><div className="pml">Chance hedge fills</div><div className="pmv" style={{ color: hitTone(recRung?.hit_prob) }}>{prob(recRung?.hit_prob)}</div></div>
-                    <div className="pm"><div className="pml">Expected value</div><div className="pmv" style={{ color: recRung?.expected_lock >= 0 ? "var(--up)" : "var(--down)" }}>{cents(recRung?.expected_lock)}/ct</div></div>
-                    <div className="pm"><div className="pml">Exp. on ${BANKROLL}</div><div className="pmv" style={{ color: "var(--up)" }}>${playExpValue.toFixed(0)}</div></div>
+                    <div className="pm"><div className="pml">Best lock target</div><div className="pmv">{cents(recRung?.target)} · {roiPct(recRung?.net_lock_roi)} net</div></div>
+                    <div className="pm"><div className="pml">Chance hedge fills</div><div className="pmv" style={{ color: hitTone(recRung?.hit_prob) }}>~{prob(recRung?.hit_prob)}</div></div>
+                    <div className="pm"><div className="pml">Exp. lock value</div><div className="pmv" style={{ color: recRung?.expected_lock >= 0 ? "var(--up)" : "var(--down)" }}>{cents(recRung?.expected_lock)}/ct</div></div>
+                    <div className="pm"><div className="pml">Total strategy EV</div><div className="pmv" style={{ color: recRung?.strategy_ev >= 0 ? "var(--up)" : "var(--down)" }}>{cents(recRung?.strategy_ev)}/ct</div></div>
                   </div>
 
                   {/* lock ladder — ROI vs probability of getting there */}
                   <div className="laddergrid">
                     <div className="ladderhead">
                       <span>Hedge when {play.entrySide} hits</span><span>Buy {play.hedgeSide} ≤</span>
-                      <span>Lock ROI</span><span>Chance before KO</span><span>Exp. value</span>
+                      <span>Net lock ROI</span><span>Chance before KO (band)</span><span>Strategy EV</span>
                     </div>
                     {play.ladder.map(r => {
                       const isRec = recRung && r.target === recRung.target;
@@ -769,24 +774,30 @@ export default function App() {
                         <div className={`ladderrow${isRec ? " rec" : ""}`} key={r.target}>
                           <span className="mono">{cents(r.target)}{isRec && <em> ← best</em>}</span>
                           <span className="mono">{cents(r.hedge_price)}</span>
-                          <span className="mono">{roiPct(r.lock_roi)}</span>
+                          <span className="mono" style={{ color: r.net_lock_profit >= 0 ? "var(--ink)" : "var(--down)" }}>{roiPct(r.net_lock_roi)}</span>
                           <span className="hitcell">
                             <i style={{ width: `${(r.hit_prob || 0) * 100}%`, background: hitTone(r.hit_prob) }} />
-                            <b style={{ color: hitTone(r.hit_prob) }}>{prob(r.hit_prob)}</b>
+                            <b style={{ color: hitTone(r.hit_prob) }}>~{prob(r.hit_prob)}</b>
+                            <span className="bandtxt">{prob(r.hit_lo)}–{prob(r.hit_hi)}</span>
                           </span>
-                          <span className="mono" style={{ color: "var(--up)" }}>{cents(r.expected_lock)}</span>
+                          <span className="mono" style={{ color: r.strategy_ev >= 0 ? "var(--up)" : "var(--down)" }}>{cents(r.strategy_ev)}</span>
                         </div>
                       );
                     })}
                   </div>
 
                   <div className="caveat">
-                    This is <b>not</b> instant arbitrage — the lock only pays if the price actually reaches a hedge level.
-                    "Chance before KO" is a mean-reverting price-path model (OU) drifting toward the confidence-adjusted fair of {cents(play.adjFair)};
-                    bigger locks need a bigger move, so their odds fall. Lower rungs lock less but fill more reliably — the highlighted row maximizes ROI × probability.
+                    <b>Reading the numbers.</b> <b>Net lock ROI</b> = guaranteed return if you hedge there, after Kalshi fees on both legs.
+                    <b> Exp. lock value</b> = P(hit) × gross lock. <b>Total strategy EV</b> = P(hit) × net lock + P(miss) × the fallback of
+                    holding {play.entrySide} to settlement (EV {cents(play.evHold)}/ct at the {cents(play.adjFair)} usable fair) — this is what the optimizer ranks by.
+                    On <b>${BANKROLL}</b> of completed-hedge capital ({playPairs} pairs at {cents(playPairCost)} each) the best rung's modeled strategy EV is{" "}
+                    <b style={{ color: playStratValue >= 0 ? "var(--up)" : "var(--down)" }}>${playStratValue.toFixed(0)}</b>.
+                    <br />
+                    <b>Caveats.</b> This is <b>not</b> instant arbitrage — the lock only pays if the price reaches a hedge level.
+                    "Chance before KO" is an <b>uncalibrated</b> mean-reverting (OU) price-path model drifting toward the {cents(play.adjFair)} usable fair; the band spans
+                    slow/low-vol to fast/high-vol scenarios. Treat single percentages as rough until calibrated from logged paths{play.confidence < 0.7 ? " — and note confidence is low here" : ""}.
                     Timing: <b>{play.phase.replace(/_/g, " ")}</b>{Number.isFinite(play.hours) ? ` · ${Math.round(play.hours)}h to kickoff` : ""}.
                     {play.lockableNow && <> The hedge is <b style={{ color: "var(--up)" }}>already lockable now</b> — you don't even need to wait.</>}
-                    {" "}If it never converges, the fallback is holding {play.entrySide} to settlement (EV {cents(play.evHold)}/ct at adjusted fair).
                   </div>
                 </div>
               ) : null}
@@ -1023,6 +1034,7 @@ export default function App() {
           </section>
         </div>
       </div>
+      <Analytics />
     </div>
   );
 }

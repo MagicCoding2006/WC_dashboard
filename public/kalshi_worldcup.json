@@ -1,0 +1,4182 @@
+{
+  "model_quality": {
+    "source": "real international results (martj42 dataset)",
+    "method": "Elo + logistic, train<2022-01-01 test>=2022-01-01",
+    "n": 4580,
+    "accuracy": 0.5993,
+    "log_loss": 0.8791,
+    "baseline_log_loss": 1.0502,
+    "log_loss_improvement": 0.171,
+    "brier": 0.5174
+  },
+  "matches": [
+    {
+      "event_ticker": "KXWCGAME-26JUN27CODUZB",
+      "matchup": "Congo DR vs Uzbekistan",
+      "sub_title": "",
+      "occurrence_time": "2026-06-28T02:30:00Z",
+      "close_time": "2026-07-11T23:30:00Z",
+      "model_probs": {
+        "p_team_win": 0.3194,
+        "p_draw": 0.2861,
+        "p_opp_win": 0.3945
+      },
+      "features_used": {
+        "strength_diff": -0.1672,
+        "form_diff": 0.0,
+        "rest_diff": -0.10000000000000009,
+        "climate_stress_diff": -4.720000000000001,
+        "travel_diff": 71.89999999999964
+      },
+      "feature_sources": {
+        "strength": "ranking",
+        "form": "not requested (defaulted 0)",
+        "context": "fixture_overrides",
+        "weather": "open_meteo_forecast"
+      },
+      "fixture_override": {
+        "venue": "Atlanta",
+        "days_since_last": 3.9,
+        "team_prev_event_ticker": "KXWCGAME-26JUN23COLCOD",
+        "match_temp": 27.3,
+        "match_humid": 58,
+        "weather_source": "forecast",
+        "weather_local_time": "2026-06-28T02:00"
+      },
+      "missing_inputs": [
+        "previous-match rest",
+        "previous-match travel chain"
+      ],
+      "kalshi_outcomes": [
+        {
+          "name": "Uzbekistan",
+          "ticker": "KXWCGAME-26JUN27CODUZB-UZB",
+          "yes_ask": 0.32,
+          "yes_bid": 0.31,
+          "no_ask": 0.69,
+          "no_bid": 0.68,
+          "volume": 6780.01,
+          "open_interest": 6609.4,
+          "rules_primary": "If Uzbekistan wins the Congo DR vs Uzbekistan professional FIFA World Cup soccer game originally scheduled for Jun 27, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        },
+        {
+          "name": "Tie",
+          "ticker": "KXWCGAME-26JUN27CODUZB-TIE",
+          "yes_ask": 0.29,
+          "yes_bid": 0.28,
+          "no_ask": 0.72,
+          "no_bid": 0.71,
+          "volume": 908.31,
+          "open_interest": 827.57,
+          "rules_primary": "If Tie wins the Congo DR vs Uzbekistan professional FIFA World Cup soccer game originally scheduled for Jun 27, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        },
+        {
+          "name": "Congo DR",
+          "ticker": "KXWCGAME-26JUN27CODUZB-COD",
+          "yes_ask": 0.41,
+          "yes_bid": 0.4,
+          "no_ask": 0.6,
+          "no_bid": 0.59,
+          "volume": 3408.76,
+          "open_interest": 3272.91,
+          "rules_primary": "If Congo DR wins the Congo DR vs Uzbekistan professional FIFA World Cup soccer game originally scheduled for Jun 27, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        }
+      ],
+      "outcome_edges": [
+        {
+          "outcome": "Congo DR",
+          "model_prob": 0.3194,
+          "kalshi_yes_ask": 0.41,
+          "edge_pct_points": -9.1,
+          "ticker": "KXWCGAME-26JUN27CODUZB-COD"
+        },
+        {
+          "outcome": "Tie",
+          "model_prob": 0.2861,
+          "kalshi_yes_ask": 0.29,
+          "edge_pct_points": -0.4,
+          "ticker": "KXWCGAME-26JUN27CODUZB-TIE"
+        },
+        {
+          "outcome": "Uzbekistan",
+          "model_prob": 0.3945,
+          "kalshi_yes_ask": 0.32,
+          "edge_pct_points": 7.5,
+          "ticker": "KXWCGAME-26JUN27CODUZB-UZB"
+        }
+      ],
+      "monte_carlo": [
+        {
+          "contract": "team_win",
+          "model_win_prob": 0.3198,
+          "price": 0.41,
+          "edge_pct_points": -9.02,
+          "ev_per_dollar": -0.0902,
+          "positive_ev": false,
+          "outcome": "Congo DR"
+        },
+        {
+          "outcome": "Tie",
+          "model_win_prob": 0.2861,
+          "price": 0.29,
+          "edge_pct_points": -0.39,
+          "ev_per_dollar": -0.0039,
+          "positive_ev": false
+        },
+        {
+          "contract": "opp_win",
+          "model_win_prob": 0.3961,
+          "price": 0.32,
+          "edge_pct_points": 7.61,
+          "ev_per_dollar": 0.0761,
+          "positive_ev": true,
+          "outcome": "Uzbekistan"
+        }
+      ],
+      "movement_signals": [
+        {
+          "outcome": "Congo DR",
+          "ticker": "KXWCGAME-26JUN27CODUZB-COD",
+          "signal": "WATCH",
+          "phase": "watchlist",
+          "hours_to_kickoff": 288.9,
+          "fair_prob": 0.3194,
+          "kalshi_yes_mid": 0.405,
+          "gap_pct_points": -8.6,
+          "entry_threshold_pts": 6.0,
+          "exit_threshold_pts": 2.0,
+          "target_exit_yes": 0.3194,
+          "target_exit_no": 0.6806,
+          "kalshi_no_mid": 0.595,
+          "long_yes_hedge": {
+            "entry_side": "YES",
+            "entry_price": 0.41,
+            "hedge_side": "NO",
+            "target_hedge_price_for_lock": 0.58,
+            "current_hedge_ask": 0.6,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "long_no_hedge": {
+            "entry_side": "NO",
+            "entry_price": 0.6,
+            "hedge_side": "YES",
+            "target_hedge_price_for_lock": 0.39,
+            "current_hedge_ask": 0.41,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "lock_no_price_if_buy_yes_at_ask": 0.58,
+          "lock_yes_price_if_buy_no_at_ask": 0.39,
+          "long_yes_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.585,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.58,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.57,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.55,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.53,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.16
+            }
+          ],
+          "long_no_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.395,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.39,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.38,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.36,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.34,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.16
+            }
+          ],
+          "reach_score_note": "Heuristic until calibrated from logged price paths; higher means the target hedge price is closer to current market/fair-value convergence.",
+          "action": "Track the gap; wait until the entry window."
+        },
+        {
+          "outcome": "Uzbekistan",
+          "ticker": "KXWCGAME-26JUN27CODUZB-UZB",
+          "signal": "WATCH",
+          "phase": "watchlist",
+          "hours_to_kickoff": 288.9,
+          "fair_prob": 0.3945,
+          "kalshi_yes_mid": 0.315,
+          "gap_pct_points": 8.0,
+          "entry_threshold_pts": 6.0,
+          "exit_threshold_pts": 2.0,
+          "target_exit_yes": 0.3945,
+          "target_exit_no": 0.6055,
+          "kalshi_no_mid": 0.685,
+          "long_yes_hedge": {
+            "entry_side": "YES",
+            "entry_price": 0.32,
+            "hedge_side": "NO",
+            "target_hedge_price_for_lock": 0.67,
+            "current_hedge_ask": 0.69,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "long_no_hedge": {
+            "entry_side": "NO",
+            "entry_price": 0.69,
+            "hedge_side": "YES",
+            "target_hedge_price_for_lock": 0.3,
+            "current_hedge_ask": 0.32,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "lock_no_price_if_buy_yes_at_ask": 0.67,
+          "lock_yes_price_if_buy_no_at_ask": 0.3,
+          "long_yes_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.675,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.67,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.66,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.64,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.62,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.16
+            }
+          ],
+          "long_no_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.305,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.3,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.29,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.27,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.25,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.16
+            }
+          ],
+          "reach_score_note": "Heuristic until calibrated from logged price paths; higher means the target hedge price is closer to current market/fair-value convergence.",
+          "action": "Track the gap; wait until the entry window."
+        }
+      ],
+      "sentiment_overlay": {
+        "source": "live",
+        "team": {
+          "team": "Congo DR",
+          "search_interest": 33.5,
+          "search_momentum": 145.2,
+          "news_sentiment": 0.247,
+          "news_volume": 20,
+          "social_sentiment": 0.0,
+          "hype_score": 50.82,
+          "headlines": [
+            "Congolese Team\u2019s World Cup Leopard Style Channels History and Pride - The New York Times",
+            "DR Congo bring style and pride to the World Cup after wholesome welcome - The Guardian",
+            "Animal print, Birkin bags and three-piece suits: How World Cup 2026 teams are representing their countries in style - Page Six",
+            "DR Congo Arrive at 2026 World Cup in Custom Leopard-Themed Suits - Footy Headlines",
+            "A symbol of pride: DR Congo's leopard-print bags steal the show at the2026 FIFA World Cup | Hindustan Times - Hindustan Times"
+          ]
+        },
+        "opponent": {
+          "team": "Uzbekistan",
+          "search_interest": 43.9,
+          "search_momentum": 42.2,
+          "news_sentiment": 0.133,
+          "news_volume": 20,
+          "social_sentiment": 0.0,
+          "hype_score": 44.76,
+          "headlines": [
+            "Uzbekistan vs Colombia at FIFA World Cup 2026: TV channel, how to watch, kick-off time, live stream, referee, predicted line-ups - ESPN",
+            "2026 FIFA Men's World Cup: How Uzbekistan can reach the Round of 32 - The New York Times",
+            "Uzbekistan vs Colombia Prediction: World Cup 2026 Preview & Best Bets - Yahoo Sports",
+            "Uzbekistan World Cup 2026 team guide - The Guardian",
+            "Uzbekistan World Cup 2026 Schedule: Locations, Dates, Times - FOX Sports"
+          ]
+        },
+        "hype_gap": 6.06,
+        "assessment": {
+          "model_prob": 0.398,
+          "market_price": 0.41,
+          "edge": -0.012,
+          "edge_pct_points": -1.2,
+          "hype_gap": 6.06,
+          "base_call": "no clear edge",
+          "conviction": "neutral",
+          "team_hype": 50.82,
+          "opp_hype": 44.76
+        },
+        "note": "Hype is a market-bias overlay only; it is not fed into win probability."
+      },
+      "sum_yes_asks": 1.02,
+      "within_event_arb": null,
+      "recommendation": "DATA NEEDED: model edge is Uzbekistan +5.2pt, but missing previous-match rest, previous-match travel chain."
+    },
+    {
+      "event_ticker": "KXWCGAME-26JUN26SENIRQ",
+      "matchup": "Senegal vs Iraq",
+      "sub_title": "",
+      "occurrence_time": "2026-06-26T22:00:00Z",
+      "close_time": "2026-07-10T19:00:00Z",
+      "model_probs": {
+        "p_team_win": 0.5629,
+        "p_draw": 0.2566,
+        "p_opp_win": 0.1805
+      },
+      "features_used": {
+        "strength_diff": 0.338,
+        "form_diff": 0.0,
+        "rest_diff": 0.0,
+        "climate_stress_diff": 0.0,
+        "travel_diff": 0.0
+      },
+      "feature_sources": {
+        "strength": "ranking",
+        "form": "not requested (defaulted 0)",
+        "context": "MISSING (defaulted 0)"
+      },
+      "fixture_override": {
+        "opp_days_since_last": 3.92,
+        "opp_prev_event_ticker": "KXWCGAME-26JUN22FRAIRQ"
+      },
+      "missing_inputs": [
+        "host venue/weather",
+        "previous-match rest",
+        "previous-match travel chain"
+      ],
+      "kalshi_outcomes": [
+        {
+          "name": "Tie",
+          "ticker": "KXWCGAME-26JUN26SENIRQ-TIE",
+          "yes_ask": 0.2,
+          "yes_bid": 0.19,
+          "no_ask": 0.81,
+          "no_bid": 0.8,
+          "volume": 604.47,
+          "open_interest": 585.59,
+          "rules_primary": "If Tie wins the Senegal vs Iraq professional FIFA World Cup soccer game originally scheduled for Jun 26, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        },
+        {
+          "name": "Senegal",
+          "ticker": "KXWCGAME-26JUN26SENIRQ-SEN",
+          "yes_ask": 0.71,
+          "yes_bid": 0.7,
+          "no_ask": 0.3,
+          "no_bid": 0.29,
+          "volume": 4045.59,
+          "open_interest": 3988.15,
+          "rules_primary": "If Senegal wins the Senegal vs Iraq professional FIFA World Cup soccer game originally scheduled for Jun 26, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        },
+        {
+          "name": "Iraq",
+          "ticker": "KXWCGAME-26JUN26SENIRQ-IRQ",
+          "yes_ask": 0.12,
+          "yes_bid": 0.11,
+          "no_ask": 0.89,
+          "no_bid": 0.88,
+          "volume": 7383.58,
+          "open_interest": 7009.82,
+          "rules_primary": "If Iraq wins the Senegal vs Iraq professional FIFA World Cup soccer game originally scheduled for Jun 26, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        }
+      ],
+      "outcome_edges": [
+        {
+          "outcome": "Senegal",
+          "model_prob": 0.5629,
+          "kalshi_yes_ask": 0.71,
+          "edge_pct_points": -14.7,
+          "ticker": "KXWCGAME-26JUN26SENIRQ-SEN"
+        },
+        {
+          "outcome": "Tie",
+          "model_prob": 0.2566,
+          "kalshi_yes_ask": 0.2,
+          "edge_pct_points": 5.7,
+          "ticker": "KXWCGAME-26JUN26SENIRQ-TIE"
+        },
+        {
+          "outcome": "Iraq",
+          "model_prob": 0.1805,
+          "kalshi_yes_ask": 0.12,
+          "edge_pct_points": 6.0,
+          "ticker": "KXWCGAME-26JUN26SENIRQ-IRQ"
+        }
+      ],
+      "monte_carlo": [
+        {
+          "contract": "team_win",
+          "model_win_prob": 0.5627,
+          "price": 0.71,
+          "edge_pct_points": -14.73,
+          "ev_per_dollar": -0.1473,
+          "positive_ev": false,
+          "outcome": "Senegal"
+        },
+        {
+          "outcome": "Tie",
+          "model_win_prob": 0.2566,
+          "price": 0.2,
+          "edge_pct_points": 5.66,
+          "ev_per_dollar": 0.0566,
+          "positive_ev": true
+        },
+        {
+          "contract": "opp_win",
+          "model_win_prob": 0.18,
+          "price": 0.12,
+          "edge_pct_points": 6.0,
+          "ev_per_dollar": 0.06,
+          "positive_ev": true,
+          "outcome": "Iraq"
+        }
+      ],
+      "movement_signals": [
+        {
+          "outcome": "Senegal",
+          "ticker": "KXWCGAME-26JUN26SENIRQ-SEN",
+          "signal": "WATCH",
+          "phase": "watchlist",
+          "hours_to_kickoff": 260.4,
+          "fair_prob": 0.5629,
+          "kalshi_yes_mid": 0.705,
+          "gap_pct_points": -14.2,
+          "entry_threshold_pts": 6.0,
+          "exit_threshold_pts": 2.0,
+          "target_exit_yes": 0.5629,
+          "target_exit_no": 0.4371,
+          "kalshi_no_mid": 0.295,
+          "long_yes_hedge": {
+            "entry_side": "YES",
+            "entry_price": 0.71,
+            "hedge_side": "NO",
+            "target_hedge_price_for_lock": 0.28,
+            "current_hedge_ask": 0.3,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "long_no_hedge": {
+            "entry_side": "NO",
+            "entry_price": 0.3,
+            "hedge_side": "YES",
+            "target_hedge_price_for_lock": 0.69,
+            "current_hedge_ask": 0.71,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "lock_no_price_if_buy_yes_at_ask": 0.28,
+          "lock_yes_price_if_buy_no_at_ask": 0.69,
+          "long_yes_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.285,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.28,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.27,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.25,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.23,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.107,
+              "hedge_price": 0.183,
+              "total_cost": 0.893,
+              "required_price_move": 0.117,
+              "reach_score": 0.16
+            }
+          ],
+          "long_no_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.695,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.69,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.68,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.66,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.64,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.107,
+              "hedge_price": 0.593,
+              "total_cost": 0.893,
+              "required_price_move": 0.117,
+              "reach_score": 0.16
+            }
+          ],
+          "reach_score_note": "Heuristic until calibrated from logged price paths; higher means the target hedge price is closer to current market/fair-value convergence.",
+          "action": "Track the gap; wait until the entry window."
+        },
+        {
+          "outcome": "Iraq",
+          "ticker": "KXWCGAME-26JUN26SENIRQ-IRQ",
+          "signal": "WATCH",
+          "phase": "watchlist",
+          "hours_to_kickoff": 260.4,
+          "fair_prob": 0.1805,
+          "kalshi_yes_mid": 0.115,
+          "gap_pct_points": 6.6,
+          "entry_threshold_pts": 6.0,
+          "exit_threshold_pts": 2.0,
+          "target_exit_yes": 0.1805,
+          "target_exit_no": 0.8195,
+          "kalshi_no_mid": 0.885,
+          "long_yes_hedge": {
+            "entry_side": "YES",
+            "entry_price": 0.12,
+            "hedge_side": "NO",
+            "target_hedge_price_for_lock": 0.87,
+            "current_hedge_ask": 0.89,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "long_no_hedge": {
+            "entry_side": "NO",
+            "entry_price": 0.89,
+            "hedge_side": "YES",
+            "target_hedge_price_for_lock": 0.1,
+            "current_hedge_ask": 0.12,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "lock_no_price_if_buy_yes_at_ask": 0.87,
+          "lock_yes_price_if_buy_no_at_ask": 0.1,
+          "long_yes_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.875,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.87,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.86,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.84,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.16
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.82,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.05
+            }
+          ],
+          "long_no_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.105,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.1,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.09,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.07,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.16
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.05,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.05
+            }
+          ],
+          "reach_score_note": "Heuristic until calibrated from logged price paths; higher means the target hedge price is closer to current market/fair-value convergence.",
+          "action": "Track the gap; wait until the entry window."
+        }
+      ],
+      "sentiment_overlay": {
+        "source": "live",
+        "team": {
+          "team": "Senegal",
+          "search_interest": 19.6,
+          "search_momentum": 135.1,
+          "news_sentiment": 0.112,
+          "news_volume": 20,
+          "social_sentiment": 0.0,
+          "hype_score": 45.79,
+          "headlines": [
+            "France vs Senegal: World Cup 2026 \u2013 Mbappe, teams, lineups, start, Dembele - Al Jazeera",
+            "Senegal's Nicolas Jackson must use the FIFA World Cup to impress Chelsea, and Xabi Alonso - ESPN",
+            "The World Cup Senegal can\u2019t attend - Africa Is a Country",
+            "France vs. Senegal - kick-off time, team news, how to watch the FIFA World Cup - ESPN",
+            "In NYC's Little Senegal, World Cup excitement meets exclusion and economic strain - Middle East Eye"
+          ]
+        },
+        "opponent": {
+          "team": "Iraq",
+          "search_interest": 15.7,
+          "search_momentum": 88.3,
+          "news_sentiment": -0.076,
+          "news_volume": 20,
+          "social_sentiment": 0.0,
+          "hype_score": 41.87,
+          "headlines": [
+            "Iraq head coach Graham Arnold: \u2018We\u2019re capable of doing something that will shock the world\u2019 - The Guardian",
+            "US visa rules leave Iraq\u2019s World Cup fans behind - Al Jazeera",
+            "Norway, Erling Haaland look to make World Cup statement vs. Iraq in Foxboro - Boston Herald",
+            "Ahmed Qasem says nothing is impossible as Iraq prepare for World Cup's 'Group of Death' - The National",
+            "Iraq fans rally on Boston Common before first World Cup game in 40 years - CBS News"
+          ]
+        },
+        "hype_gap": 3.92,
+        "assessment": {
+          "model_prob": 0.401,
+          "market_price": 0.71,
+          "edge": -0.309,
+          "edge_pct_points": -30.9,
+          "hype_gap": 3.92,
+          "base_call": "VALUE on opponent (model < market)",
+          "conviction": "MODERATE \u2014 edge exists, hype neutral",
+          "team_hype": 45.79,
+          "opp_hype": 41.87
+        },
+        "note": "Hype is a market-bias overlay only; it is not fed into win probability."
+      },
+      "sum_yes_asks": 1.03,
+      "within_event_arb": null,
+      "recommendation": "DATA NEEDED: model edge is Iraq +24.8pt, but missing host venue/weather, previous-match rest, previous-match travel chain."
+    },
+    {
+      "event_ticker": "KXWCGAME-26JUN25TURUSA",
+      "matchup": "Turkiye vs USA",
+      "sub_title": "",
+      "occurrence_time": "2026-06-26T05:00:00Z",
+      "close_time": "2026-07-10T02:00:00Z",
+      "model_probs": {
+        "p_team_win": 0.4196,
+        "p_draw": 0.2841,
+        "p_opp_win": 0.2964
+      },
+      "features_used": {
+        "strength_diff": 0.0422,
+        "form_diff": 0.0,
+        "rest_diff": 1.96,
+        "climate_stress_diff": -2.92,
+        "travel_diff": -8506.5
+      },
+      "feature_sources": {
+        "strength": "ranking",
+        "form": "not requested (defaulted 0)",
+        "context": "fixture_overrides",
+        "weather": "open_meteo_forecast"
+      },
+      "fixture_override": {
+        "venue": "Dallas",
+        "days_since_last": 5.96,
+        "team_prev_event_ticker": "KXWCGAME-26JUN19TURPAR",
+        "match_temp": 25.9,
+        "match_humid": 69,
+        "weather_source": "forecast",
+        "weather_local_time": "2026-06-26T05:00"
+      },
+      "missing_inputs": [
+        "previous-match rest",
+        "previous-match travel chain"
+      ],
+      "kalshi_outcomes": [
+        {
+          "name": "USA",
+          "ticker": "KXWCGAME-26JUN25TURUSA-USA",
+          "yes_ask": 0.43,
+          "yes_bid": 0.42,
+          "no_ask": 0.58,
+          "no_bid": 0.57,
+          "volume": 323334.38,
+          "open_interest": 241238.67,
+          "rules_primary": "If USA wins the Turkiye vs USA professional FIFA World Cup soccer game originally scheduled for Jun 25, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        },
+        {
+          "name": "Turkiye",
+          "ticker": "KXWCGAME-26JUN25TURUSA-TUR",
+          "yes_ask": 0.35,
+          "yes_bid": 0.34,
+          "no_ask": 0.66,
+          "no_bid": 0.65,
+          "volume": 32094.17,
+          "open_interest": 22905.95,
+          "rules_primary": "If Turkiye wins the Turkiye vs USA professional FIFA World Cup soccer game originally scheduled for Jun 25, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        },
+        {
+          "name": "Tie",
+          "ticker": "KXWCGAME-26JUN25TURUSA-TIE",
+          "yes_ask": 0.25,
+          "yes_bid": 0.24,
+          "no_ask": 0.76,
+          "no_bid": 0.75,
+          "volume": 22272.59,
+          "open_interest": 17447.22,
+          "rules_primary": "If Tie wins the Turkiye vs USA professional FIFA World Cup soccer game originally scheduled for Jun 25, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        }
+      ],
+      "outcome_edges": [
+        {
+          "outcome": "Turkiye",
+          "model_prob": 0.4196,
+          "kalshi_yes_ask": 0.35,
+          "edge_pct_points": 7.0,
+          "ticker": "KXWCGAME-26JUN25TURUSA-TUR"
+        },
+        {
+          "outcome": "Tie",
+          "model_prob": 0.2841,
+          "kalshi_yes_ask": 0.25,
+          "edge_pct_points": 3.4,
+          "ticker": "KXWCGAME-26JUN25TURUSA-TIE"
+        },
+        {
+          "outcome": "USA",
+          "model_prob": 0.2964,
+          "kalshi_yes_ask": 0.43,
+          "edge_pct_points": -13.4,
+          "ticker": "KXWCGAME-26JUN25TURUSA-USA"
+        }
+      ],
+      "monte_carlo": [
+        {
+          "contract": "team_win",
+          "model_win_prob": 0.4205,
+          "price": 0.35,
+          "edge_pct_points": 7.05,
+          "ev_per_dollar": 0.0705,
+          "positive_ev": true,
+          "outcome": "Turkiye"
+        },
+        {
+          "outcome": "Tie",
+          "model_win_prob": 0.2841,
+          "price": 0.25,
+          "edge_pct_points": 3.41,
+          "ev_per_dollar": 0.0341,
+          "positive_ev": true
+        },
+        {
+          "contract": "opp_win",
+          "model_win_prob": 0.2953,
+          "price": 0.43,
+          "edge_pct_points": -13.47,
+          "ev_per_dollar": -0.1347,
+          "positive_ev": false,
+          "outcome": "USA"
+        }
+      ],
+      "movement_signals": [
+        {
+          "outcome": "Turkiye",
+          "ticker": "KXWCGAME-26JUN25TURUSA-TUR",
+          "signal": "WATCH",
+          "phase": "watchlist",
+          "hours_to_kickoff": 243.4,
+          "fair_prob": 0.4196,
+          "kalshi_yes_mid": 0.345,
+          "gap_pct_points": 7.5,
+          "entry_threshold_pts": 6.0,
+          "exit_threshold_pts": 2.0,
+          "target_exit_yes": 0.4196,
+          "target_exit_no": 0.5804,
+          "kalshi_no_mid": 0.655,
+          "long_yes_hedge": {
+            "entry_side": "YES",
+            "entry_price": 0.35,
+            "hedge_side": "NO",
+            "target_hedge_price_for_lock": 0.64,
+            "current_hedge_ask": 0.66,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "long_no_hedge": {
+            "entry_side": "NO",
+            "entry_price": 0.66,
+            "hedge_side": "YES",
+            "target_hedge_price_for_lock": 0.33,
+            "current_hedge_ask": 0.35,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "lock_no_price_if_buy_yes_at_ask": 0.64,
+          "lock_yes_price_if_buy_no_at_ask": 0.33,
+          "long_yes_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.645,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.64,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.63,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.61,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.59,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.16
+            }
+          ],
+          "long_no_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.335,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.33,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.32,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.3,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.28,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.16
+            }
+          ],
+          "reach_score_note": "Heuristic until calibrated from logged price paths; higher means the target hedge price is closer to current market/fair-value convergence.",
+          "action": "Track the gap; wait until the entry window."
+        },
+        {
+          "outcome": "USA",
+          "ticker": "KXWCGAME-26JUN25TURUSA-USA",
+          "signal": "WATCH",
+          "phase": "watchlist",
+          "hours_to_kickoff": 243.4,
+          "fair_prob": 0.2964,
+          "kalshi_yes_mid": 0.425,
+          "gap_pct_points": -12.9,
+          "entry_threshold_pts": 6.0,
+          "exit_threshold_pts": 2.0,
+          "target_exit_yes": 0.2964,
+          "target_exit_no": 0.7036,
+          "kalshi_no_mid": 0.575,
+          "long_yes_hedge": {
+            "entry_side": "YES",
+            "entry_price": 0.43,
+            "hedge_side": "NO",
+            "target_hedge_price_for_lock": 0.56,
+            "current_hedge_ask": 0.58,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "long_no_hedge": {
+            "entry_side": "NO",
+            "entry_price": 0.58,
+            "hedge_side": "YES",
+            "target_hedge_price_for_lock": 0.41,
+            "current_hedge_ask": 0.43,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "lock_no_price_if_buy_yes_at_ask": 0.56,
+          "lock_yes_price_if_buy_no_at_ask": 0.41,
+          "long_yes_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.565,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.56,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.55,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.53,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.51,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.096,
+              "hedge_price": 0.474,
+              "total_cost": 0.904,
+              "required_price_move": 0.106,
+              "reach_score": 0.16
+            }
+          ],
+          "long_no_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.415,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.41,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.4,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.38,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.36,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.096,
+              "hedge_price": 0.324,
+              "total_cost": 0.904,
+              "required_price_move": 0.106,
+              "reach_score": 0.16
+            }
+          ],
+          "reach_score_note": "Heuristic until calibrated from logged price paths; higher means the target hedge price is closer to current market/fair-value convergence.",
+          "action": "Track the gap; wait until the entry window."
+        }
+      ],
+      "sentiment_overlay": {
+        "source": "live",
+        "team": {
+          "team": "Turkiye",
+          "search_interest": 0.0,
+          "search_momentum": -89.3,
+          "news_sentiment": -0.004,
+          "news_volume": 20,
+          "social_sentiment": 0.0,
+          "hype_score": -40.07,
+          "headlines": [
+            "Australia vs T\u00fcrkiye Extended Highlights | 2026 FIFA World Cup\u2122 - FOX Sports",
+            "Legendary Roos captain was just axed at World Cup. Here\u2019s what we know\u2026 and a murky theory - Fox Sports",
+            "World Cup scores, results: Brazil and Morocco battle to 1-1 draw while Australia stuns T\u00fcrkiye in the nightcap - Yahoo Sports",
+            "World Cup 2026: England camp hit by tornado warning as Scotland reacts to first victory in 36 years \u2013 as it happened - The Guardian",
+            "World Cup live updates: Socceroos' 14-year high rankings jump delivers final blow to T\u00fcrkiye - Nine.com.au"
+          ]
+        },
+        "opponent": {
+          "team": "USA",
+          "search_interest": 7.2,
+          "search_momentum": 166.4,
+          "news_sentiment": 0.291,
+          "news_volume": 20,
+          "social_sentiment": 0.0,
+          "hype_score": 46.29,
+          "headlines": [
+            "Alexi Lalas' 2026 World Cup Power Rankings: USA Breaks Into The Top 10 - FOX Sports",
+            "Ten observations after attending a World Cup match in the US - Al Jazeera",
+            "FIFA World Cup Day 5 live updates: Iran to play in U.S. amid peace deal; Saudi Arabia holds off Uruguay for upset draw - NBC News",
+            "Was the World Cup win over Paraguay the best in USMNT history? - ESPN",
+            "World Cup 2026: Fifa urged to remove official over hand gesture; teams hit back at Ceferin; Iran arrive in US \u2013 as it happened - The Guardian"
+          ]
+        },
+        "hype_gap": -86.36,
+        "assessment": {
+          "model_prob": 0.362,
+          "market_price": 0.35,
+          "edge": 0.012,
+          "edge_pct_points": 1.2,
+          "hype_gap": -86.36,
+          "base_call": "no clear edge",
+          "conviction": "neutral",
+          "team_hype": -40.07,
+          "opp_hype": 46.29
+        },
+        "note": "Hype is a market-bias overlay only; it is not fed into win probability."
+      },
+      "sum_yes_asks": 1.03,
+      "within_event_arb": null,
+      "recommendation": "DATA NEEDED: model edge is Turkiye +1.2pt, but missing previous-match rest, previous-match travel chain."
+    },
+    {
+      "event_ticker": "KXWCGAME-26JUN25JPNSWE",
+      "matchup": "Japan vs Sweden",
+      "sub_title": "",
+      "occurrence_time": "2026-06-26T02:00:00Z",
+      "close_time": "2026-07-09T23:00:00Z",
+      "model_probs": {
+        "p_team_win": 0.6476,
+        "p_draw": 0.2282,
+        "p_opp_win": 0.1242
+      },
+      "features_used": {
+        "strength_diff": 0.5305,
+        "form_diff": 0.0,
+        "rest_diff": 0.0,
+        "climate_stress_diff": 0.0,
+        "travel_diff": 0.0
+      },
+      "feature_sources": {
+        "strength": "ranking",
+        "form": "not requested (defaulted 0)",
+        "context": "MISSING (defaulted 0)"
+      },
+      "fixture_override": {
+        "opp_days_since_last": 5.25,
+        "opp_prev_event_ticker": "KXWCGAME-26JUN20NEDSWE"
+      },
+      "missing_inputs": [
+        "host venue/weather",
+        "previous-match rest",
+        "previous-match travel chain"
+      ],
+      "kalshi_outcomes": [
+        {
+          "name": "Tie",
+          "ticker": "KXWCGAME-26JUN25JPNSWE-TIE",
+          "yes_ask": 0.28,
+          "yes_bid": 0.27,
+          "no_ask": 0.73,
+          "no_bid": 0.72,
+          "volume": 1898.66,
+          "open_interest": 1481.63,
+          "rules_primary": "If Tie wins the Japan vs Sweden professional FIFA World Cup soccer game originally scheduled for Jun 25, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        },
+        {
+          "name": "Sweden",
+          "ticker": "KXWCGAME-26JUN25JPNSWE-SWE",
+          "yes_ask": 0.28,
+          "yes_bid": 0.27,
+          "no_ask": 0.73,
+          "no_bid": 0.72,
+          "volume": 9936.48,
+          "open_interest": 8656.97,
+          "rules_primary": "If Sweden wins the Japan vs Sweden professional FIFA World Cup soccer game originally scheduled for Jun 25, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        },
+        {
+          "name": "Japan",
+          "ticker": "KXWCGAME-26JUN25JPNSWE-JPN",
+          "yes_ask": 0.46,
+          "yes_bid": 0.45,
+          "no_ask": 0.55,
+          "no_bid": 0.54,
+          "volume": 28849.56,
+          "open_interest": 21240.97,
+          "rules_primary": "If Japan wins the Japan vs Sweden professional FIFA World Cup soccer game originally scheduled for Jun 25, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        }
+      ],
+      "outcome_edges": [
+        {
+          "outcome": "Japan",
+          "model_prob": 0.6476,
+          "kalshi_yes_ask": 0.46,
+          "edge_pct_points": 18.8,
+          "ticker": "KXWCGAME-26JUN25JPNSWE-JPN"
+        },
+        {
+          "outcome": "Tie",
+          "model_prob": 0.2282,
+          "kalshi_yes_ask": 0.28,
+          "edge_pct_points": -5.2,
+          "ticker": "KXWCGAME-26JUN25JPNSWE-TIE"
+        },
+        {
+          "outcome": "Sweden",
+          "model_prob": 0.1242,
+          "kalshi_yes_ask": 0.28,
+          "edge_pct_points": -15.6,
+          "ticker": "KXWCGAME-26JUN25JPNSWE-SWE"
+        }
+      ],
+      "monte_carlo": [
+        {
+          "contract": "team_win",
+          "model_win_prob": 0.6471,
+          "price": 0.46,
+          "edge_pct_points": 18.71,
+          "ev_per_dollar": 0.1871,
+          "positive_ev": true,
+          "outcome": "Japan"
+        },
+        {
+          "outcome": "Tie",
+          "model_win_prob": 0.2282,
+          "price": 0.28,
+          "edge_pct_points": -5.18,
+          "ev_per_dollar": -0.0518,
+          "positive_ev": false
+        },
+        {
+          "contract": "opp_win",
+          "model_win_prob": 0.1234,
+          "price": 0.28,
+          "edge_pct_points": -15.66,
+          "ev_per_dollar": -0.1566,
+          "positive_ev": false,
+          "outcome": "Sweden"
+        }
+      ],
+      "movement_signals": [
+        {
+          "outcome": "Japan",
+          "ticker": "KXWCGAME-26JUN25JPNSWE-JPN",
+          "signal": "WATCH",
+          "phase": "watchlist",
+          "hours_to_kickoff": 240.4,
+          "fair_prob": 0.6476,
+          "kalshi_yes_mid": 0.455,
+          "gap_pct_points": 19.3,
+          "entry_threshold_pts": 6.0,
+          "exit_threshold_pts": 2.0,
+          "target_exit_yes": 0.6476,
+          "target_exit_no": 0.3524,
+          "kalshi_no_mid": 0.545,
+          "long_yes_hedge": {
+            "entry_side": "YES",
+            "entry_price": 0.46,
+            "hedge_side": "NO",
+            "target_hedge_price_for_lock": 0.53,
+            "current_hedge_ask": 0.55,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "long_no_hedge": {
+            "entry_side": "NO",
+            "entry_price": 0.55,
+            "hedge_side": "YES",
+            "target_hedge_price_for_lock": 0.44,
+            "current_hedge_ask": 0.46,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "lock_no_price_if_buy_yes_at_ask": 0.53,
+          "lock_yes_price_if_buy_no_at_ask": 0.44,
+          "long_yes_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.535,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.53,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.52,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.5,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.48,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.12,
+              "hedge_price": 0.42,
+              "total_cost": 0.88,
+              "required_price_move": 0.13,
+              "reach_score": 0.27
+            }
+          ],
+          "long_no_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.445,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.44,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.43,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.41,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.39,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.12,
+              "hedge_price": 0.33,
+              "total_cost": 0.88,
+              "required_price_move": 0.13,
+              "reach_score": 0.27
+            }
+          ],
+          "reach_score_note": "Heuristic until calibrated from logged price paths; higher means the target hedge price is closer to current market/fair-value convergence.",
+          "action": "Track the gap; wait until the entry window."
+        },
+        {
+          "outcome": "Sweden",
+          "ticker": "KXWCGAME-26JUN25JPNSWE-SWE",
+          "signal": "WATCH",
+          "phase": "watchlist",
+          "hours_to_kickoff": 240.4,
+          "fair_prob": 0.1242,
+          "kalshi_yes_mid": 0.275,
+          "gap_pct_points": -15.1,
+          "entry_threshold_pts": 6.0,
+          "exit_threshold_pts": 2.0,
+          "target_exit_yes": 0.1242,
+          "target_exit_no": 0.8758,
+          "kalshi_no_mid": 0.725,
+          "long_yes_hedge": {
+            "entry_side": "YES",
+            "entry_price": 0.28,
+            "hedge_side": "NO",
+            "target_hedge_price_for_lock": 0.71,
+            "current_hedge_ask": 0.73,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "long_no_hedge": {
+            "entry_side": "NO",
+            "entry_price": 0.73,
+            "hedge_side": "YES",
+            "target_hedge_price_for_lock": 0.26,
+            "current_hedge_ask": 0.28,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "lock_no_price_if_buy_yes_at_ask": 0.71,
+          "lock_yes_price_if_buy_no_at_ask": 0.26,
+          "long_yes_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.715,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.71,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.7,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.68,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.66,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.113,
+              "hedge_price": 0.607,
+              "total_cost": 0.887,
+              "required_price_move": 0.123,
+              "reach_score": 0.16
+            }
+          ],
+          "long_no_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.265,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.26,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.25,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.23,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.21,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.113,
+              "hedge_price": 0.157,
+              "total_cost": 0.887,
+              "required_price_move": 0.123,
+              "reach_score": 0.16
+            }
+          ],
+          "reach_score_note": "Heuristic until calibrated from logged price paths; higher means the target hedge price is closer to current market/fair-value convergence.",
+          "action": "Track the gap; wait until the entry window."
+        }
+      ],
+      "sentiment_overlay": {
+        "source": "live",
+        "team": {
+          "team": "Japan",
+          "search_interest": 5.3,
+          "search_momentum": 821.7,
+          "news_sentiment": 0.083,
+          "news_volume": 20,
+          "social_sentiment": 0.0,
+          "hype_score": 42.44,
+          "headlines": [
+            "'This is our culture': Japan fans clean up World Cup stadium - Yahoo Sports",
+            "Netherlands vs Japan Highlights | 2026 FIFA World Cup\u2122 - FOX Sports",
+            "Giants QB assists Team Japan fans in World Cup tradition - Yahoo Sports",
+            "World Cup Daily: Sweden top Group F after Netherlands-Japan draw - ESPN",
+            "\u2018A bird that flies never leaves a trace\u2019: Why is Japan always so tidy at the World Cup? - CNN"
+          ]
+        },
+        "opponent": {
+          "team": "Sweden",
+          "search_interest": 1.8,
+          "search_momentum": 1833.3,
+          "news_sentiment": 0.002,
+          "news_volume": 20,
+          "social_sentiment": 0.0,
+          "hype_score": 40.39,
+          "headlines": [
+            "Sweden vs Tunisia Highlights | 2026 FIFA World Cup\u2122 - FOX Sports",
+            "Netherlands And Sweden Walk Into Houston With Group F Already Tilted - Yahoo Sports",
+            "Arsenal\u2019s Gyokeres stars as Sweden hit five in dominant World Cup opener - Yahoo Sports Canada",
+            "Explained: How a chip in the ball allowed World Cup's fastest goal by a sub to stand - ESPN",
+            "2026 World Cup: Tunisia manager Sabri Lamouchi expected to be fired after 5-1 loss to Sweden - Yahoo Sports"
+          ]
+        },
+        "hype_gap": 2.05,
+        "assessment": {
+          "model_prob": 0.392,
+          "market_price": 0.46,
+          "edge": -0.068,
+          "edge_pct_points": -6.8,
+          "hype_gap": 2.05,
+          "base_call": "VALUE on opponent (model < market)",
+          "conviction": "MODERATE \u2014 edge exists, hype neutral",
+          "team_hype": 42.44,
+          "opp_hype": 40.39
+        },
+        "note": "Hype is a market-bias overlay only; it is not fed into win probability."
+      },
+      "sum_yes_asks": 1.02,
+      "within_event_arb": null,
+      "recommendation": "DATA NEEDED: model edge is Sweden +9.9pt, but missing host venue/weather, previous-match rest, previous-match travel chain."
+    },
+    {
+      "event_ticker": "KXWCGAME-26JUN24CZEMEX",
+      "matchup": "Czechia vs Mexico",
+      "sub_title": "",
+      "occurrence_time": "2026-06-25T04:00:00Z",
+      "close_time": "2026-07-09T01:00:00Z",
+      "model_probs": {
+        "p_team_win": 0.1633,
+        "p_draw": 0.2497,
+        "p_opp_win": 0.587
+      },
+      "features_used": {
+        "strength_diff": -0.5673,
+        "form_diff": 0.0,
+        "rest_diff": 0.0,
+        "climate_stress_diff": 0.0,
+        "travel_diff": 0.0
+      },
+      "feature_sources": {
+        "strength": "ranking",
+        "form": "not requested (defaulted 0)",
+        "context": "MISSING (defaulted 0)"
+      },
+      "fixture_override": {},
+      "missing_inputs": [
+        "host venue/weather",
+        "previous-match rest",
+        "previous-match travel chain"
+      ],
+      "kalshi_outcomes": [
+        {
+          "name": "Tie",
+          "ticker": "KXWCGAME-26JUN24CZEMEX-TIE",
+          "yes_ask": 0.26,
+          "yes_bid": 0.25,
+          "no_ask": 0.75,
+          "no_bid": 0.74,
+          "volume": 5322.28,
+          "open_interest": 5048.07,
+          "rules_primary": "If Tie wins the Czechia vs Mexico professional FIFA World Cup soccer game originally scheduled for Jun 24, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        },
+        {
+          "name": "Mexico",
+          "ticker": "KXWCGAME-26JUN24CZEMEX-MEX",
+          "yes_ask": 0.55,
+          "yes_bid": 0.54,
+          "no_ask": 0.46,
+          "no_bid": 0.45,
+          "volume": 53547.34,
+          "open_interest": 38878.81,
+          "rules_primary": "If Mexico wins the Czechia vs Mexico professional FIFA World Cup soccer game originally scheduled for Jun 24, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        },
+        {
+          "name": "Czechia",
+          "ticker": "KXWCGAME-26JUN24CZEMEX-CZE",
+          "yes_ask": 0.2,
+          "yes_bid": 0.19,
+          "no_ask": 0.81,
+          "no_bid": 0.8,
+          "volume": 10496.98,
+          "open_interest": 7653.05,
+          "rules_primary": "If Czechia wins the Czechia vs Mexico professional FIFA World Cup soccer game originally scheduled for Jun 24, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        }
+      ],
+      "outcome_edges": [
+        {
+          "outcome": "Czechia",
+          "model_prob": 0.1633,
+          "kalshi_yes_ask": 0.2,
+          "edge_pct_points": -3.7,
+          "ticker": "KXWCGAME-26JUN24CZEMEX-CZE"
+        },
+        {
+          "outcome": "Tie",
+          "model_prob": 0.2497,
+          "kalshi_yes_ask": 0.26,
+          "edge_pct_points": -1.0,
+          "ticker": "KXWCGAME-26JUN24CZEMEX-TIE"
+        },
+        {
+          "outcome": "Mexico",
+          "model_prob": 0.587,
+          "kalshi_yes_ask": 0.55,
+          "edge_pct_points": 3.7,
+          "ticker": "KXWCGAME-26JUN24CZEMEX-MEX"
+        }
+      ],
+      "monte_carlo": [
+        {
+          "contract": "team_win",
+          "model_win_prob": 0.1622,
+          "price": 0.2,
+          "edge_pct_points": -3.78,
+          "ev_per_dollar": -0.0378,
+          "positive_ev": false,
+          "outcome": "Czechia"
+        },
+        {
+          "outcome": "Tie",
+          "model_win_prob": 0.2497,
+          "price": 0.26,
+          "edge_pct_points": -1.03,
+          "ev_per_dollar": -0.0103,
+          "positive_ev": false
+        },
+        {
+          "contract": "opp_win",
+          "model_win_prob": 0.5912,
+          "price": 0.55,
+          "edge_pct_points": 4.12,
+          "ev_per_dollar": 0.0412,
+          "positive_ev": true,
+          "outcome": "Mexico"
+        }
+      ],
+      "movement_signals": [
+        {
+          "outcome": "Czechia",
+          "ticker": "KXWCGAME-26JUN24CZEMEX-CZE",
+          "signal": "WATCH",
+          "phase": "watchlist",
+          "hours_to_kickoff": 218.4,
+          "fair_prob": 0.1633,
+          "kalshi_yes_mid": 0.195,
+          "gap_pct_points": -3.2,
+          "entry_threshold_pts": 6.0,
+          "exit_threshold_pts": 2.0,
+          "target_exit_yes": 0.1633,
+          "target_exit_no": 0.8367,
+          "kalshi_no_mid": 0.805,
+          "long_yes_hedge": {
+            "entry_side": "YES",
+            "entry_price": 0.2,
+            "hedge_side": "NO",
+            "target_hedge_price_for_lock": 0.79,
+            "current_hedge_ask": 0.81,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "long_no_hedge": {
+            "entry_side": "NO",
+            "entry_price": 0.81,
+            "hedge_side": "YES",
+            "target_hedge_price_for_lock": 0.18,
+            "current_hedge_ask": 0.2,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "lock_no_price_if_buy_yes_at_ask": 0.79,
+          "lock_yes_price_if_buy_no_at_ask": 0.18,
+          "long_yes_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.795,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.79,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.78,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.16
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.76,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.05
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.74,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.05
+            }
+          ],
+          "long_no_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.185,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.18,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.17,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.16
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.15,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.05
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.13,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.05
+            }
+          ],
+          "reach_score_note": "Heuristic until calibrated from logged price paths; higher means the target hedge price is closer to current market/fair-value convergence.",
+          "action": "Track the gap; wait until the entry window."
+        },
+        {
+          "outcome": "Mexico",
+          "ticker": "KXWCGAME-26JUN24CZEMEX-MEX",
+          "signal": "WATCH",
+          "phase": "watchlist",
+          "hours_to_kickoff": 218.4,
+          "fair_prob": 0.587,
+          "kalshi_yes_mid": 0.545,
+          "gap_pct_points": 4.2,
+          "entry_threshold_pts": 6.0,
+          "exit_threshold_pts": 2.0,
+          "target_exit_yes": 0.587,
+          "target_exit_no": 0.413,
+          "kalshi_no_mid": 0.455,
+          "long_yes_hedge": {
+            "entry_side": "YES",
+            "entry_price": 0.55,
+            "hedge_side": "NO",
+            "target_hedge_price_for_lock": 0.44,
+            "current_hedge_ask": 0.46,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "long_no_hedge": {
+            "entry_side": "NO",
+            "entry_price": 0.46,
+            "hedge_side": "YES",
+            "target_hedge_price_for_lock": 0.53,
+            "current_hedge_ask": 0.55,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "lock_no_price_if_buy_yes_at_ask": 0.44,
+          "lock_yes_price_if_buy_no_at_ask": 0.53,
+          "long_yes_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.445,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.44,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.43,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.41,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.05
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.39,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.05
+            }
+          ],
+          "long_no_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.535,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.53,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.52,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.5,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.05
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.48,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.05
+            }
+          ],
+          "reach_score_note": "Heuristic until calibrated from logged price paths; higher means the target hedge price is closer to current market/fair-value convergence.",
+          "action": "Track the gap; wait until the entry window."
+        }
+      ],
+      "sentiment_overlay": {
+        "source": "live",
+        "team": {
+          "team": "Czechia",
+          "search_interest": 0.9,
+          "search_momentum": -100.0,
+          "news_sentiment": 0.018,
+          "news_volume": 20,
+          "social_sentiment": 0.0,
+          "hype_score": -39.52,
+          "headlines": [
+            "South Korea 2-1 Czech Republic LIVE: FIFA World Cup 2026 Group A: South Korea come from behind to win - BBC",
+            "Tori Penso to officiate South Africa vs Czechia in World Cup Group A clash - GhanaWeb",
+            "South Korea defeats Czechia after Mexico\u2019s victory against South Africa: World Cup results - NBC News",
+            "How South Korea came from behind to beat Czech Republic in World Cup 2026 group match - The New York Times",
+            "South Korea vs. Czechia Highlights: South Korea's Comeback Shakes Up Group A - FOX Sports"
+          ]
+        },
+        "opponent": {
+          "team": "Mexico",
+          "search_interest": 6.9,
+          "search_momentum": -6.7,
+          "news_sentiment": 0.105,
+          "news_volume": 20,
+          "social_sentiment": 0.0,
+          "hype_score": -2.23,
+          "headlines": [
+            "World Cup 2026: Mexico\u2019s winning start; empty seats; USA and Canada enter fray; Endo\u2019s Japan retirement \u2013 live - The Guardian",
+            "Watch: Duck Wearing Mexico Jersey During FIFA World Cup Goes Viral - NDTV",
+            "Meet Merlin the duck, a Mexico City streetside regular turned World Cup mascot - AP News",
+            "Video. Meet Merlin: The duck that became the World Cup's viral mascot - Euronews.com",
+            "Meet Merlin the duck, a Mexico City streetside regular turned World Cup mascot - Toronto Star"
+          ]
+        },
+        "hype_gap": -37.29,
+        "assessment": {
+          "model_prob": 0.374,
+          "market_price": 0.2,
+          "edge": 0.174,
+          "edge_pct_points": 17.4,
+          "hype_gap": -37.29,
+          "base_call": "VALUE on team (model > market)",
+          "conviction": "HIGH \u2014 market underpricing an unhyped team; back with confidence",
+          "team_hype": -39.52,
+          "opp_hype": -2.23
+        },
+        "note": "Hype is a market-bias overlay only; it is not fed into win probability."
+      },
+      "sum_yes_asks": 1.01,
+      "within_event_arb": null,
+      "recommendation": "DATA NEEDED: model edge is Czechia +17.4pt, but missing host venue/weather, previous-match rest, previous-match travel chain."
+    },
+    {
+      "event_ticker": "KXWCGAME-26JUN24BIHQAT",
+      "matchup": "Bosnia and Herzegovina vs Qatar",
+      "sub_title": "",
+      "occurrence_time": "2026-06-24T22:00:00Z",
+      "close_time": "2026-07-08T19:00:00Z",
+      "model_probs": {
+        "p_team_win": 0.4757,
+        "p_draw": 0.2765,
+        "p_opp_win": 0.2478
+      },
+      "features_used": {
+        "strength_diff": 0.1562,
+        "form_diff": 0.0,
+        "rest_diff": 0.0,
+        "climate_stress_diff": 0.0,
+        "travel_diff": 0.0
+      },
+      "feature_sources": {
+        "strength": "ranking",
+        "form": "not requested (defaulted 0)",
+        "context": "MISSING (defaulted 0)"
+      },
+      "fixture_override": {},
+      "missing_inputs": [
+        "host venue/weather",
+        "previous-match rest",
+        "previous-match travel chain"
+      ],
+      "kalshi_outcomes": [
+        {
+          "name": "Tie",
+          "ticker": "KXWCGAME-26JUN24BIHQAT-TIE",
+          "yes_ask": 0.23,
+          "yes_bid": 0.22,
+          "no_ask": 0.78,
+          "no_bid": 0.77,
+          "volume": 1601.21,
+          "open_interest": 1588.56,
+          "rules_primary": "If Tie wins the Bosnia and Herzegovina vs Qatar professional FIFA World Cup soccer game originally scheduled for Jun 24, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        },
+        {
+          "name": "Qatar",
+          "ticker": "KXWCGAME-26JUN24BIHQAT-QAT",
+          "yes_ask": 0.16,
+          "yes_bid": 0.15,
+          "no_ask": 0.85,
+          "no_bid": 0.84,
+          "volume": 18779.26,
+          "open_interest": 16548.98,
+          "rules_primary": "If Qatar wins the Bosnia and Herzegovina vs Qatar professional FIFA World Cup soccer game originally scheduled for Jun 24, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        },
+        {
+          "name": "Bosnia and Herzegovina",
+          "ticker": "KXWCGAME-26JUN24BIHQAT-BIH",
+          "yes_ask": 0.62,
+          "yes_bid": 0.61,
+          "no_ask": 0.39,
+          "no_bid": 0.38,
+          "volume": 6689.33,
+          "open_interest": 5222.19,
+          "rules_primary": "If Bosnia and Herzegovina wins the Bosnia and Herzegovina vs Qatar professional FIFA World Cup soccer game originally scheduled for Jun 24, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        }
+      ],
+      "outcome_edges": [
+        {
+          "outcome": "Bosnia and Herzegovina",
+          "model_prob": 0.4757,
+          "kalshi_yes_ask": 0.62,
+          "edge_pct_points": -14.4,
+          "ticker": "KXWCGAME-26JUN24BIHQAT-BIH"
+        },
+        {
+          "outcome": "Tie",
+          "model_prob": 0.2765,
+          "kalshi_yes_ask": 0.23,
+          "edge_pct_points": 4.7,
+          "ticker": "KXWCGAME-26JUN24BIHQAT-TIE"
+        },
+        {
+          "outcome": "Qatar",
+          "model_prob": 0.2478,
+          "kalshi_yes_ask": 0.16,
+          "edge_pct_points": 8.8,
+          "ticker": "KXWCGAME-26JUN24BIHQAT-QAT"
+        }
+      ],
+      "monte_carlo": [
+        {
+          "contract": "team_win",
+          "model_win_prob": 0.4745,
+          "price": 0.62,
+          "edge_pct_points": -14.55,
+          "ev_per_dollar": -0.1455,
+          "positive_ev": false,
+          "outcome": "Bosnia and Herzegovina"
+        },
+        {
+          "outcome": "Tie",
+          "model_win_prob": 0.2765,
+          "price": 0.23,
+          "edge_pct_points": 4.65,
+          "ev_per_dollar": 0.0465,
+          "positive_ev": true
+        },
+        {
+          "contract": "opp_win",
+          "model_win_prob": 0.2485,
+          "price": 0.16,
+          "edge_pct_points": 8.85,
+          "ev_per_dollar": 0.0885,
+          "positive_ev": true,
+          "outcome": "Qatar"
+        }
+      ],
+      "movement_signals": [
+        {
+          "outcome": "Bosnia and Herzegovina",
+          "ticker": "KXWCGAME-26JUN24BIHQAT-BIH",
+          "signal": "WATCH",
+          "phase": "watchlist",
+          "hours_to_kickoff": 212.4,
+          "fair_prob": 0.4757,
+          "kalshi_yes_mid": 0.615,
+          "gap_pct_points": -13.9,
+          "entry_threshold_pts": 6.0,
+          "exit_threshold_pts": 2.0,
+          "target_exit_yes": 0.4757,
+          "target_exit_no": 0.5243,
+          "kalshi_no_mid": 0.385,
+          "long_yes_hedge": {
+            "entry_side": "YES",
+            "entry_price": 0.62,
+            "hedge_side": "NO",
+            "target_hedge_price_for_lock": 0.37,
+            "current_hedge_ask": 0.39,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "long_no_hedge": {
+            "entry_side": "NO",
+            "entry_price": 0.39,
+            "hedge_side": "YES",
+            "target_hedge_price_for_lock": 0.6,
+            "current_hedge_ask": 0.62,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "lock_no_price_if_buy_yes_at_ask": 0.37,
+          "lock_yes_price_if_buy_no_at_ask": 0.6,
+          "long_yes_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.375,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.37,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.36,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.34,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.32,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.104,
+              "hedge_price": 0.276,
+              "total_cost": 0.896,
+              "required_price_move": 0.114,
+              "reach_score": 0.16
+            }
+          ],
+          "long_no_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.605,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.6,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.59,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.57,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.55,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.104,
+              "hedge_price": 0.506,
+              "total_cost": 0.896,
+              "required_price_move": 0.114,
+              "reach_score": 0.16
+            }
+          ],
+          "reach_score_note": "Heuristic until calibrated from logged price paths; higher means the target hedge price is closer to current market/fair-value convergence.",
+          "action": "Track the gap; wait until the entry window."
+        },
+        {
+          "outcome": "Qatar",
+          "ticker": "KXWCGAME-26JUN24BIHQAT-QAT",
+          "signal": "WATCH",
+          "phase": "watchlist",
+          "hours_to_kickoff": 212.4,
+          "fair_prob": 0.2478,
+          "kalshi_yes_mid": 0.155,
+          "gap_pct_points": 9.3,
+          "entry_threshold_pts": 6.0,
+          "exit_threshold_pts": 2.0,
+          "target_exit_yes": 0.2478,
+          "target_exit_no": 0.7522,
+          "kalshi_no_mid": 0.845,
+          "long_yes_hedge": {
+            "entry_side": "YES",
+            "entry_price": 0.16,
+            "hedge_side": "NO",
+            "target_hedge_price_for_lock": 0.83,
+            "current_hedge_ask": 0.85,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "long_no_hedge": {
+            "entry_side": "NO",
+            "entry_price": 0.85,
+            "hedge_side": "YES",
+            "target_hedge_price_for_lock": 0.14,
+            "current_hedge_ask": 0.16,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "lock_no_price_if_buy_yes_at_ask": 0.83,
+          "lock_yes_price_if_buy_no_at_ask": 0.14,
+          "long_yes_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.835,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.83,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.82,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.8,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.78,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.16
+            }
+          ],
+          "long_no_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.145,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.14,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.13,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.11,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.09,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.16
+            }
+          ],
+          "reach_score_note": "Heuristic until calibrated from logged price paths; higher means the target hedge price is closer to current market/fair-value convergence.",
+          "action": "Track the gap; wait until the entry window."
+        }
+      ],
+      "sentiment_overlay": {
+        "source": "live",
+        "team": {
+          "team": "Bosnia and Herzegovina",
+          "search_interest": 2.0,
+          "search_momentum": 500.0,
+          "news_sentiment": 0.183,
+          "news_volume": 20,
+          "social_sentiment": 0.0,
+          "hype_score": 43.45,
+          "headlines": [
+            "Canada vs Bosnia LIVE: World Cup 2026 latest after stunning Larin equaliser - The Independent",
+            "Canada 1-1 Bosnia and Herzegovina: World Cup 2026 \u2013 as it happened - The Guardian",
+            "Canada 1-1 Bosnia and Herzegovina: Co-hosts earn first World Cup point - as it happened - ESPN",
+            "4 Takeaways From Canada's World Cup Opener vs. Bosnia And Herzegovina - FOX Sports",
+            "Canada vs Bosnia and Herzegovina Highlights | 2026 FIFA World Cup\u2122 - FOX Sports"
+          ]
+        },
+        "opponent": {
+          "team": "Qatar",
+          "search_interest": 5.2,
+          "search_momentum": 626.8,
+          "news_sentiment": 0.017,
+          "news_volume": 20,
+          "social_sentiment": 0.0,
+          "hype_score": 41.32,
+          "headlines": [
+            "Qatar net late against Switzerland to secure historic first World Cup point - Al Jazeera",
+            "Trump\u2019s World Cup is a low point \u2013 even after Qatar and Russia - EUobserver",
+            "Canada's Alphonso Davies yet to return to full training ahead of Qatar World Cup clash - ESPN",
+            "FIFA suggests Levi\u2019s Stadium near 99% full for its World Cup opener. Empty seats show otherwise - San Francisco Chronicle",
+            "'Mandatory' march orders issued for Qatari World Cup fans in downtown SF - SFGATE"
+          ]
+        },
+        "hype_gap": 2.13,
+        "assessment": {
+          "model_prob": 0.381,
+          "market_price": 0.62,
+          "edge": -0.239,
+          "edge_pct_points": -23.9,
+          "hype_gap": 2.13,
+          "base_call": "VALUE on opponent (model < market)",
+          "conviction": "MODERATE \u2014 edge exists, hype neutral",
+          "team_hype": 43.45,
+          "opp_hype": 41.32
+        },
+        "note": "Hype is a market-bias overlay only; it is not fed into win probability."
+      },
+      "sum_yes_asks": 1.01,
+      "within_event_arb": null,
+      "recommendation": "DATA NEEDED: model edge is Qatar +23.4pt, but missing host venue/weather, previous-match rest, previous-match travel chain."
+    },
+    {
+      "event_ticker": "KXWCGAME-26JUN23COLCOD",
+      "matchup": "Colombia vs Congo DR",
+      "sub_title": "",
+      "occurrence_time": "2026-06-24T05:00:00Z",
+      "close_time": "2026-07-08T02:00:00Z",
+      "model_probs": {
+        "p_team_win": 0.698,
+        "p_draw": 0.2071,
+        "p_opp_win": 0.0949
+      },
+      "features_used": {
+        "strength_diff": 0.6593,
+        "form_diff": 0.0,
+        "rest_diff": 0,
+        "climate_stress_diff": 0.6899999999999995,
+        "travel_diff": 6255.1
+      },
+      "feature_sources": {
+        "strength": "ranking",
+        "form": "not requested (defaulted 0)",
+        "context": "fixture_overrides",
+        "weather": "open_meteo_forecast"
+      },
+      "fixture_override": {
+        "venue": "New York",
+        "match_temp": 16.6,
+        "match_humid": 70,
+        "weather_source": "forecast",
+        "weather_local_time": "2026-06-24T05:00"
+      },
+      "missing_inputs": [
+        "previous-match rest",
+        "previous-match travel chain"
+      ],
+      "kalshi_outcomes": [
+        {
+          "name": "Tie",
+          "ticker": "KXWCGAME-26JUN23COLCOD-TIE",
+          "yes_ask": 0.22,
+          "yes_bid": 0.21,
+          "no_ask": 0.79,
+          "no_bid": 0.78,
+          "volume": 1665.98,
+          "open_interest": 1656.73,
+          "rules_primary": "If Tie wins the Colombia vs Congo DR professional FIFA World Cup soccer game originally scheduled for Jun 23, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        },
+        {
+          "name": "Colombia",
+          "ticker": "KXWCGAME-26JUN23COLCOD-COL",
+          "yes_ask": 0.68,
+          "yes_bid": 0.67,
+          "no_ask": 0.33,
+          "no_bid": 0.32,
+          "volume": 14095.21,
+          "open_interest": 12822.62,
+          "rules_primary": "If Colombia wins the Colombia vs Congo DR professional FIFA World Cup soccer game originally scheduled for Jun 23, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        },
+        {
+          "name": "Congo DR",
+          "ticker": "KXWCGAME-26JUN23COLCOD-COD",
+          "yes_ask": 0.12,
+          "yes_bid": 0.11,
+          "no_ask": 0.89,
+          "no_bid": 0.88,
+          "volume": 6322.84,
+          "open_interest": 4267.66,
+          "rules_primary": "If Congo DR wins the Colombia vs Congo DR professional FIFA World Cup soccer game originally scheduled for Jun 23, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        }
+      ],
+      "outcome_edges": [
+        {
+          "outcome": "Colombia",
+          "model_prob": 0.698,
+          "kalshi_yes_ask": 0.68,
+          "edge_pct_points": 1.8,
+          "ticker": "KXWCGAME-26JUN23COLCOD-COL"
+        },
+        {
+          "outcome": "Tie",
+          "model_prob": 0.2071,
+          "kalshi_yes_ask": 0.22,
+          "edge_pct_points": -1.3,
+          "ticker": "KXWCGAME-26JUN23COLCOD-TIE"
+        },
+        {
+          "outcome": "Congo DR",
+          "model_prob": 0.0949,
+          "kalshi_yes_ask": 0.12,
+          "edge_pct_points": -2.5,
+          "ticker": "KXWCGAME-26JUN23COLCOD-COD"
+        }
+      ],
+      "monte_carlo": [
+        {
+          "contract": "team_win",
+          "model_win_prob": 0.6947,
+          "price": 0.68,
+          "edge_pct_points": 1.47,
+          "ev_per_dollar": 0.0147,
+          "positive_ev": true,
+          "outcome": "Colombia"
+        },
+        {
+          "outcome": "Tie",
+          "model_win_prob": 0.2071,
+          "price": 0.22,
+          "edge_pct_points": -1.29,
+          "ev_per_dollar": -0.0129,
+          "positive_ev": false
+        },
+        {
+          "contract": "opp_win",
+          "model_win_prob": 0.0944,
+          "price": 0.12,
+          "edge_pct_points": -2.56,
+          "ev_per_dollar": -0.0256,
+          "positive_ev": false,
+          "outcome": "Congo DR"
+        }
+      ],
+      "movement_signals": [
+        {
+          "outcome": "Colombia",
+          "ticker": "KXWCGAME-26JUN23COLCOD-COL",
+          "signal": "WATCH",
+          "phase": "watchlist",
+          "hours_to_kickoff": 195.4,
+          "fair_prob": 0.698,
+          "kalshi_yes_mid": 0.675,
+          "gap_pct_points": 2.3,
+          "entry_threshold_pts": 6.0,
+          "exit_threshold_pts": 2.0,
+          "target_exit_yes": 0.698,
+          "target_exit_no": 0.302,
+          "kalshi_no_mid": 0.325,
+          "long_yes_hedge": {
+            "entry_side": "YES",
+            "entry_price": 0.68,
+            "hedge_side": "NO",
+            "target_hedge_price_for_lock": 0.31,
+            "current_hedge_ask": 0.33,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "long_no_hedge": {
+            "entry_side": "NO",
+            "entry_price": 0.33,
+            "hedge_side": "YES",
+            "target_hedge_price_for_lock": 0.66,
+            "current_hedge_ask": 0.68,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "lock_no_price_if_buy_yes_at_ask": 0.31,
+          "lock_yes_price_if_buy_no_at_ask": 0.66,
+          "long_yes_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.315,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.31,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.16
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.3,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.05
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.28,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.05
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.26,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.05
+            }
+          ],
+          "long_no_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.665,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.66,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.16
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.65,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.05
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.63,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.05
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.61,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.05
+            }
+          ],
+          "reach_score_note": "Heuristic until calibrated from logged price paths; higher means the target hedge price is closer to current market/fair-value convergence.",
+          "action": "Track the gap; wait until the entry window."
+        },
+        {
+          "outcome": "Congo DR",
+          "ticker": "KXWCGAME-26JUN23COLCOD-COD",
+          "signal": "WATCH",
+          "phase": "watchlist",
+          "hours_to_kickoff": 195.4,
+          "fair_prob": 0.0949,
+          "kalshi_yes_mid": 0.115,
+          "gap_pct_points": -2.0,
+          "entry_threshold_pts": 6.0,
+          "exit_threshold_pts": 2.0,
+          "target_exit_yes": 0.0949,
+          "target_exit_no": 0.9051,
+          "kalshi_no_mid": 0.885,
+          "long_yes_hedge": {
+            "entry_side": "YES",
+            "entry_price": 0.12,
+            "hedge_side": "NO",
+            "target_hedge_price_for_lock": 0.87,
+            "current_hedge_ask": 0.89,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "long_no_hedge": {
+            "entry_side": "NO",
+            "entry_price": 0.89,
+            "hedge_side": "YES",
+            "target_hedge_price_for_lock": 0.1,
+            "current_hedge_ask": 0.12,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "lock_no_price_if_buy_yes_at_ask": 0.87,
+          "lock_yes_price_if_buy_no_at_ask": 0.1,
+          "long_yes_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.875,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.87,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.16
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.86,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.05
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.84,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.05
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.82,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.05
+            }
+          ],
+          "long_no_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.105,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.1,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.16
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.09,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.05
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.07,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.05
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.05,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.05
+            }
+          ],
+          "reach_score_note": "Heuristic until calibrated from logged price paths; higher means the target hedge price is closer to current market/fair-value convergence.",
+          "action": "Track the gap; wait until the entry window."
+        }
+      ],
+      "sentiment_overlay": {
+        "source": "live",
+        "team": {
+          "team": "Colombia",
+          "search_interest": 36.4,
+          "search_momentum": 97.6,
+          "news_sentiment": 0.115,
+          "news_volume": 20,
+          "social_sentiment": 0.0,
+          "hype_score": 49.2,
+          "headlines": [
+            "Player slaps referee as Fan World Cup finale descends into chaos - USA Today",
+            "Uzbekistan vs Colombia at FIFA World Cup 2026: TV channel, how to watch, kick-off time, live stream, referee, predicted line-ups - ESPN",
+            "Colombia vs. Uzbekistan odds, predictions, time: 2026 World Cup picks from elite soccer expert - SportsLine",
+            "Uzbekistan vs Colombia Prediction: World Cup 2026 Preview & Best Bets - Yahoo Sports",
+            "World Cup 2026: Colombia name James Rodriguez and Luis Diaz in final squad - BBC"
+          ]
+        },
+        "opponent": {
+          "team": "Congo DR",
+          "search_interest": 8.8,
+          "search_momentum": 143.8,
+          "news_sentiment": 0.247,
+          "news_volume": 20,
+          "social_sentiment": 0.0,
+          "hype_score": 45.88,
+          "headlines": [
+            "Congolese Team\u2019s World Cup Leopard Style Channels History and Pride - The New York Times",
+            "DR Congo bring style and pride to the World Cup after wholesome welcome - The Guardian",
+            "Animal print, Birkin bags and three-piece suits: How World Cup 2026 teams are representing their countries in style - Page Six",
+            "DR Congo Arrive at 2026 World Cup in Custom Leopard-Themed Suits - Footy Headlines",
+            "A symbol of pride: DR Congo's leopard-print bags steal the show at the2026 FIFA World Cup | Hindustan Times - Hindustan Times"
+          ]
+        },
+        "hype_gap": 3.32,
+        "assessment": {
+          "model_prob": 0.429,
+          "market_price": 0.68,
+          "edge": -0.251,
+          "edge_pct_points": -25.1,
+          "hype_gap": 3.32,
+          "base_call": "VALUE on opponent (model < market)",
+          "conviction": "MODERATE \u2014 edge exists, hype neutral",
+          "team_hype": 49.2,
+          "opp_hype": 45.88
+        },
+        "note": "Hype is a market-bias overlay only; it is not fed into win probability."
+      },
+      "sum_yes_asks": 1.02,
+      "within_event_arb": null,
+      "recommendation": "DATA NEEDED: model edge is Congo DR +21.2pt, but missing previous-match rest, previous-match travel chain."
+    },
+    {
+      "event_ticker": "KXWCGAME-26JUN22FRAIRQ",
+      "matchup": "France vs Iraq",
+      "sub_title": "",
+      "occurrence_time": "2026-06-23T00:00:00Z",
+      "close_time": "2026-07-06T21:00:00Z",
+      "model_probs": {
+        "p_team_win": 0.7607,
+        "p_draw": 0.1762,
+        "p_opp_win": 0.0631
+      },
+      "features_used": {
+        "strength_diff": 0.8445,
+        "form_diff": 0.0,
+        "rest_diff": 0.0,
+        "climate_stress_diff": 0.0,
+        "travel_diff": 0.0
+      },
+      "feature_sources": {
+        "strength": "ranking",
+        "form": "not requested (defaulted 0)",
+        "context": "MISSING (defaulted 0)"
+      },
+      "fixture_override": {},
+      "missing_inputs": [
+        "host venue/weather",
+        "previous-match rest",
+        "previous-match travel chain"
+      ],
+      "kalshi_outcomes": [
+        {
+          "name": "Tie",
+          "ticker": "KXWCGAME-26JUN22FRAIRQ-TIE",
+          "yes_ask": 0.1,
+          "yes_bid": 0.09,
+          "no_ask": 0.91,
+          "no_bid": 0.9,
+          "volume": 10269.98,
+          "open_interest": 9226.21,
+          "rules_primary": "If Tie wins the France vs Iraq professional FIFA World Cup soccer game originally scheduled for Jun 22, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        },
+        {
+          "name": "Iraq",
+          "ticker": "KXWCGAME-26JUN22FRAIRQ-IRQ",
+          "yes_ask": 0.04,
+          "yes_bid": 0.03,
+          "no_ask": 0.97,
+          "no_bid": 0.96,
+          "volume": 89429.7,
+          "open_interest": 85132.11,
+          "rules_primary": "If Iraq wins the France vs Iraq professional FIFA World Cup soccer game originally scheduled for Jun 22, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        },
+        {
+          "name": "France",
+          "ticker": "KXWCGAME-26JUN22FRAIRQ-FRA",
+          "yes_ask": 0.89,
+          "yes_bid": 0.88,
+          "no_ask": 0.12,
+          "no_bid": 0.11,
+          "volume": 25892.69,
+          "open_interest": 22330.67,
+          "rules_primary": "If France wins the France vs Iraq professional FIFA World Cup soccer game originally scheduled for Jun 22, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        }
+      ],
+      "outcome_edges": [
+        {
+          "outcome": "France",
+          "model_prob": 0.7607,
+          "kalshi_yes_ask": 0.89,
+          "edge_pct_points": -12.9,
+          "ticker": "KXWCGAME-26JUN22FRAIRQ-FRA"
+        },
+        {
+          "outcome": "Tie",
+          "model_prob": 0.1762,
+          "kalshi_yes_ask": 0.1,
+          "edge_pct_points": 7.6,
+          "ticker": "KXWCGAME-26JUN22FRAIRQ-TIE"
+        },
+        {
+          "outcome": "Iraq",
+          "model_prob": 0.0631,
+          "kalshi_yes_ask": 0.04,
+          "edge_pct_points": 2.3,
+          "ticker": "KXWCGAME-26JUN22FRAIRQ-IRQ"
+        }
+      ],
+      "monte_carlo": [
+        {
+          "contract": "team_win",
+          "model_win_prob": 0.757,
+          "price": 0.89,
+          "edge_pct_points": -13.3,
+          "ev_per_dollar": -0.133,
+          "positive_ev": false,
+          "outcome": "France"
+        },
+        {
+          "outcome": "Tie",
+          "model_win_prob": 0.1762,
+          "price": 0.1,
+          "edge_pct_points": 7.62,
+          "ev_per_dollar": 0.0762,
+          "positive_ev": true
+        },
+        {
+          "contract": "opp_win",
+          "model_win_prob": 0.066,
+          "price": 0.04,
+          "edge_pct_points": 2.6,
+          "ev_per_dollar": 0.026,
+          "positive_ev": true,
+          "outcome": "Iraq"
+        }
+      ],
+      "movement_signals": [
+        {
+          "outcome": "France",
+          "ticker": "KXWCGAME-26JUN22FRAIRQ-FRA",
+          "signal": "WATCH",
+          "phase": "watchlist",
+          "hours_to_kickoff": 166.4,
+          "fair_prob": 0.7607,
+          "kalshi_yes_mid": 0.885,
+          "gap_pct_points": -12.4,
+          "entry_threshold_pts": 6.0,
+          "exit_threshold_pts": 2.0,
+          "target_exit_yes": 0.7607,
+          "target_exit_no": 0.2393,
+          "kalshi_no_mid": 0.115,
+          "long_yes_hedge": {
+            "entry_side": "YES",
+            "entry_price": 0.89,
+            "hedge_side": "NO",
+            "target_hedge_price_for_lock": 0.1,
+            "current_hedge_ask": 0.12,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "long_no_hedge": {
+            "entry_side": "NO",
+            "entry_price": 0.12,
+            "hedge_side": "YES",
+            "target_hedge_price_for_lock": 0.87,
+            "current_hedge_ask": 0.89,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "lock_no_price_if_buy_yes_at_ask": 0.1,
+          "lock_yes_price_if_buy_no_at_ask": 0.87,
+          "long_yes_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.105,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.1,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.09,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.07,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.05,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.093,
+              "hedge_price": 0.017,
+              "total_cost": 0.907,
+              "required_price_move": 0.103,
+              "reach_score": 0.16
+            }
+          ],
+          "long_no_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.875,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.87,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.86,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.84,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.82,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.093,
+              "hedge_price": 0.787,
+              "total_cost": 0.907,
+              "required_price_move": 0.103,
+              "reach_score": 0.16
+            }
+          ],
+          "reach_score_note": "Heuristic until calibrated from logged price paths; higher means the target hedge price is closer to current market/fair-value convergence.",
+          "action": "Track the gap; wait until the entry window."
+        },
+        {
+          "outcome": "Iraq",
+          "ticker": "KXWCGAME-26JUN22FRAIRQ-IRQ",
+          "signal": "WATCH",
+          "phase": "watchlist",
+          "hours_to_kickoff": 166.4,
+          "fair_prob": 0.0631,
+          "kalshi_yes_mid": 0.035,
+          "gap_pct_points": 2.8,
+          "entry_threshold_pts": 6.0,
+          "exit_threshold_pts": 2.0,
+          "target_exit_yes": 0.0631,
+          "target_exit_no": 0.9369,
+          "kalshi_no_mid": 0.965,
+          "long_yes_hedge": {
+            "entry_side": "YES",
+            "entry_price": 0.04,
+            "hedge_side": "NO",
+            "target_hedge_price_for_lock": 0.95,
+            "current_hedge_ask": 0.97,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "long_no_hedge": {
+            "entry_side": "NO",
+            "entry_price": 0.97,
+            "hedge_side": "YES",
+            "target_hedge_price_for_lock": 0.02,
+            "current_hedge_ask": 0.04,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "lock_no_price_if_buy_yes_at_ask": 0.95,
+          "lock_yes_price_if_buy_no_at_ask": 0.02,
+          "long_yes_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.955,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.95,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.94,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.05
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.92,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.05
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.9,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.05
+            }
+          ],
+          "long_no_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.025,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.02,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.01,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.05
+            }
+          ],
+          "reach_score_note": "Heuristic until calibrated from logged price paths; higher means the target hedge price is closer to current market/fair-value convergence.",
+          "action": "Track the gap; wait until the entry window."
+        }
+      ],
+      "sentiment_overlay": {
+        "source": "live",
+        "team": {
+          "team": "France",
+          "search_interest": 43.6,
+          "search_momentum": 71.8,
+          "news_sentiment": 0.17,
+          "news_volume": 20,
+          "social_sentiment": 0.0,
+          "hype_score": 51.55,
+          "headlines": [
+            "World Cup 2026: Critics of France captain Kylian Mbappe have gone 'too far', says Ousmane Dembele - BBC",
+            "Why Michael Olise is the key to France's World Cup chances - ESPN",
+            "Who\u2019s Winning The World Cup: France is the most common birthplace for 2026 players by far - The New York Times",
+            "Andscape at the World Cup: Why Senegal vs. France means more than soccer - Andscape",
+            "Macron dreams of burnishing his legacy via French World Cup glory - Politico"
+          ]
+        },
+        "opponent": {
+          "team": "Iraq",
+          "search_interest": 6.3,
+          "search_momentum": 86.0,
+          "news_sentiment": -0.076,
+          "news_volume": 20,
+          "social_sentiment": 0.0,
+          "hype_score": 39.99,
+          "headlines": [
+            "Iraq head coach Graham Arnold: \u2018We\u2019re capable of doing something that will shock the world\u2019 - The Guardian",
+            "US visa rules leave Iraq\u2019s World Cup fans behind - Al Jazeera",
+            "Norway, Erling Haaland look to make World Cup statement vs. Iraq in Foxboro - Boston Herald",
+            "Ahmed Qasem says nothing is impossible as Iraq prepare for World Cup's 'Group of Death' - The National",
+            "Iraq fans rally on Boston Common before first World Cup game in 40 years - CBS News"
+          ]
+        },
+        "hype_gap": 11.56,
+        "assessment": {
+          "model_prob": 0.423,
+          "market_price": 0.89,
+          "edge": -0.467,
+          "edge_pct_points": -46.7,
+          "hype_gap": 11.56,
+          "base_call": "VALUE on opponent (model < market)",
+          "conviction": "MODERATE \u2014 edge exists, hype neutral",
+          "team_hype": 51.55,
+          "opp_hype": 39.99
+        },
+        "note": "Hype is a market-bias overlay only; it is not fed into win probability."
+      },
+      "sum_yes_asks": 1.03,
+      "within_event_arb": null,
+      "recommendation": "DATA NEEDED: model edge is Iraq +30.1pt, but missing host venue/weather, previous-match rest, previous-match travel chain."
+    },
+    {
+      "event_ticker": "KXWCGAME-26JUN20NEDSWE",
+      "matchup": "Netherlands vs Sweden",
+      "sub_title": "",
+      "occurrence_time": "2026-06-20T20:00:00Z",
+      "close_time": "2026-07-04T17:00:00Z",
+      "model_probs": {
+        "p_team_win": 0.6319,
+        "p_draw": 0.2341,
+        "p_opp_win": 0.134
+      },
+      "features_used": {
+        "strength_diff": 0.493,
+        "form_diff": 0.0,
+        "rest_diff": 0.0,
+        "climate_stress_diff": 0.0,
+        "travel_diff": 0.0
+      },
+      "feature_sources": {
+        "strength": "ranking",
+        "form": "not requested (defaulted 0)",
+        "context": "MISSING (defaulted 0)"
+      },
+      "fixture_override": {},
+      "missing_inputs": [
+        "host venue/weather",
+        "previous-match rest",
+        "previous-match travel chain"
+      ],
+      "kalshi_outcomes": [
+        {
+          "name": "Tie",
+          "ticker": "KXWCGAME-26JUN20NEDSWE-TIE",
+          "yes_ask": 0.24,
+          "yes_bid": 0.23,
+          "no_ask": 0.77,
+          "no_bid": 0.76,
+          "volume": 6620.45,
+          "open_interest": 5050.91,
+          "rules_primary": "If Tie wins the Netherlands vs Sweden professional FIFA World Cup soccer game originally scheduled for Jun 20, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        },
+        {
+          "name": "Sweden",
+          "ticker": "KXWCGAME-26JUN20NEDSWE-SWE",
+          "yes_ask": 0.2,
+          "yes_bid": 0.19,
+          "no_ask": 0.81,
+          "no_bid": 0.8,
+          "volume": 44890.76,
+          "open_interest": 43559.52,
+          "rules_primary": "If Sweden wins the Netherlands vs Sweden professional FIFA World Cup soccer game originally scheduled for Jun 20, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        },
+        {
+          "name": "Netherlands",
+          "ticker": "KXWCGAME-26JUN20NEDSWE-NED",
+          "yes_ask": 0.57,
+          "yes_bid": 0.56,
+          "no_ask": 0.44,
+          "no_bid": 0.43,
+          "volume": 23089.84,
+          "open_interest": 17399.82,
+          "rules_primary": "If Netherlands wins the Netherlands vs Sweden professional FIFA World Cup soccer game originally scheduled for Jun 20, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        }
+      ],
+      "outcome_edges": [
+        {
+          "outcome": "Netherlands",
+          "model_prob": 0.6319,
+          "kalshi_yes_ask": 0.57,
+          "edge_pct_points": 6.2,
+          "ticker": "KXWCGAME-26JUN20NEDSWE-NED"
+        },
+        {
+          "outcome": "Tie",
+          "model_prob": 0.2341,
+          "kalshi_yes_ask": 0.24,
+          "edge_pct_points": -0.6,
+          "ticker": "KXWCGAME-26JUN20NEDSWE-TIE"
+        },
+        {
+          "outcome": "Sweden",
+          "model_prob": 0.134,
+          "kalshi_yes_ask": 0.2,
+          "edge_pct_points": -6.6,
+          "ticker": "KXWCGAME-26JUN20NEDSWE-SWE"
+        }
+      ],
+      "monte_carlo": [
+        {
+          "contract": "team_win",
+          "model_win_prob": 0.63,
+          "price": 0.57,
+          "edge_pct_points": 6.0,
+          "ev_per_dollar": 0.06,
+          "positive_ev": true,
+          "outcome": "Netherlands"
+        },
+        {
+          "outcome": "Tie",
+          "model_win_prob": 0.2341,
+          "price": 0.24,
+          "edge_pct_points": -0.59,
+          "ev_per_dollar": -0.0059,
+          "positive_ev": false
+        },
+        {
+          "contract": "opp_win",
+          "model_win_prob": 0.1342,
+          "price": 0.2,
+          "edge_pct_points": -6.58,
+          "ev_per_dollar": -0.0658,
+          "positive_ev": false,
+          "outcome": "Sweden"
+        }
+      ],
+      "movement_signals": [
+        {
+          "outcome": "Netherlands",
+          "ticker": "KXWCGAME-26JUN20NEDSWE-NED",
+          "signal": "WATCH",
+          "phase": "watchlist",
+          "hours_to_kickoff": 114.4,
+          "fair_prob": 0.6319,
+          "kalshi_yes_mid": 0.565,
+          "gap_pct_points": 6.7,
+          "entry_threshold_pts": 6.0,
+          "exit_threshold_pts": 2.0,
+          "target_exit_yes": 0.6319,
+          "target_exit_no": 0.3681,
+          "kalshi_no_mid": 0.435,
+          "long_yes_hedge": {
+            "entry_side": "YES",
+            "entry_price": 0.57,
+            "hedge_side": "NO",
+            "target_hedge_price_for_lock": 0.42,
+            "current_hedge_ask": 0.44,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "long_no_hedge": {
+            "entry_side": "NO",
+            "entry_price": 0.44,
+            "hedge_side": "YES",
+            "target_hedge_price_for_lock": 0.55,
+            "current_hedge_ask": 0.57,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "lock_no_price_if_buy_yes_at_ask": 0.42,
+          "lock_yes_price_if_buy_no_at_ask": 0.55,
+          "long_yes_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.425,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.42,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.41,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.39,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.37,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.05
+            }
+          ],
+          "long_no_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.555,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.55,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.54,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.52,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.5,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.05
+            }
+          ],
+          "reach_score_note": "Heuristic until calibrated from logged price paths; higher means the target hedge price is closer to current market/fair-value convergence.",
+          "action": "Track the gap; wait until the entry window."
+        },
+        {
+          "outcome": "Sweden",
+          "ticker": "KXWCGAME-26JUN20NEDSWE-SWE",
+          "signal": "WATCH",
+          "phase": "watchlist",
+          "hours_to_kickoff": 114.4,
+          "fair_prob": 0.134,
+          "kalshi_yes_mid": 0.195,
+          "gap_pct_points": -6.1,
+          "entry_threshold_pts": 6.0,
+          "exit_threshold_pts": 2.0,
+          "target_exit_yes": 0.134,
+          "target_exit_no": 0.866,
+          "kalshi_no_mid": 0.805,
+          "long_yes_hedge": {
+            "entry_side": "YES",
+            "entry_price": 0.2,
+            "hedge_side": "NO",
+            "target_hedge_price_for_lock": 0.79,
+            "current_hedge_ask": 0.81,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "long_no_hedge": {
+            "entry_side": "NO",
+            "entry_price": 0.81,
+            "hedge_side": "YES",
+            "target_hedge_price_for_lock": 0.18,
+            "current_hedge_ask": 0.2,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "lock_no_price_if_buy_yes_at_ask": 0.79,
+          "lock_yes_price_if_buy_no_at_ask": 0.18,
+          "long_yes_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.795,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.79,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.78,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.76,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.16
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.74,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.05
+            }
+          ],
+          "long_no_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.185,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.52
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.18,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.17,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.15,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.16
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.13,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.05
+            }
+          ],
+          "reach_score_note": "Heuristic until calibrated from logged price paths; higher means the target hedge price is closer to current market/fair-value convergence.",
+          "action": "Track the gap; wait until the entry window."
+        }
+      ],
+      "sentiment_overlay": {
+        "source": "live",
+        "team": {
+          "team": "Netherlands",
+          "search_interest": 4.5,
+          "search_momentum": 765.2,
+          "news_sentiment": 0.239,
+          "news_volume": 20,
+          "social_sentiment": 0.0,
+          "hype_score": 44.88,
+          "headlines": [
+            "Netherlands vs Japan Picks and Predictions: Who Will Win Today's World Cup Match? - Covers.com",
+            "Netherlands And Sweden Walk Into Houston With Group F Already Tilted - Yahoo Sports",
+            "Japanese fans clean Dallas Stadium after World Cup opener against Netherlands - FOX 4 News Dallas-Fort Worth",
+            "\"Truly American\": Dutch, Japanese fans laud atmosphere inside Dallas Stadium during World Cup draw - FOX 4 News Dallas-Fort Worth",
+            "Japanese World Cup fans clean up stadium with NFL quarterback after team draws with the Netherlands - Fox News"
+          ]
+        },
+        "opponent": {
+          "team": "Sweden",
+          "search_interest": 2.2,
+          "search_momentum": 1023.1,
+          "news_sentiment": 0.002,
+          "news_volume": 20,
+          "social_sentiment": 0.0,
+          "hype_score": 40.47,
+          "headlines": [
+            "Sweden vs Tunisia Highlights | 2026 FIFA World Cup\u2122 - FOX Sports",
+            "Netherlands And Sweden Walk Into Houston With Group F Already Tilted - Yahoo Sports",
+            "Arsenal\u2019s Gyokeres stars as Sweden hit five in dominant World Cup opener - Yahoo Sports Canada",
+            "Explained: How a chip in the ball allowed World Cup's fastest goal by a sub to stand - ESPN",
+            "2026 World Cup: Tunisia manager Sabri Lamouchi expected to be fired after 5-1 loss to Sweden - Yahoo Sports"
+          ]
+        },
+        "hype_gap": 4.41,
+        "assessment": {
+          "model_prob": 0.406,
+          "market_price": 0.57,
+          "edge": -0.164,
+          "edge_pct_points": -16.4,
+          "hype_gap": 4.41,
+          "base_call": "VALUE on opponent (model < market)",
+          "conviction": "MODERATE \u2014 edge exists, hype neutral",
+          "team_hype": 44.88,
+          "opp_hype": 40.47
+        },
+        "note": "Hype is a market-bias overlay only; it is not fed into win probability."
+      },
+      "sum_yes_asks": 1.01,
+      "within_event_arb": null,
+      "recommendation": "DATA NEEDED: model edge is Sweden +16.1pt, but missing host venue/weather, previous-match rest, previous-match travel chain."
+    },
+    {
+      "event_ticker": "KXWCGAME-26JUN19TURPAR",
+      "matchup": "Turkiye vs Paraguay",
+      "sub_title": "",
+      "occurrence_time": "2026-06-20T06:00:00Z",
+      "close_time": "2026-07-04T03:00:00Z",
+      "model_probs": {
+        "p_team_win": 0.443,
+        "p_draw": 0.2814,
+        "p_opp_win": 0.2756
+      },
+      "features_used": {
+        "strength_diff": 0.0897,
+        "form_diff": 0.0,
+        "rest_diff": 0.0,
+        "climate_stress_diff": 0.0,
+        "travel_diff": 0.0
+      },
+      "feature_sources": {
+        "strength": "ranking",
+        "form": "not requested (defaulted 0)",
+        "context": "MISSING (defaulted 0)"
+      },
+      "fixture_override": {},
+      "missing_inputs": [
+        "host venue/weather",
+        "previous-match rest",
+        "previous-match travel chain"
+      ],
+      "kalshi_outcomes": [
+        {
+          "name": "Turkiye",
+          "ticker": "KXWCGAME-26JUN19TURPAR-TUR",
+          "yes_ask": 0.49,
+          "yes_bid": 0.48,
+          "no_ask": 0.52,
+          "no_bid": 0.51,
+          "volume": 61604.64,
+          "open_interest": 51895.55,
+          "rules_primary": "If Turkiye wins the Turkiye vs Paraguay professional FIFA World Cup soccer game originally scheduled for Jun 19, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        },
+        {
+          "name": "Tie",
+          "ticker": "KXWCGAME-26JUN19TURPAR-TIE",
+          "yes_ask": 0.29,
+          "yes_bid": 0.28,
+          "no_ask": 0.72,
+          "no_bid": 0.71,
+          "volume": 3218.03,
+          "open_interest": 2880.0,
+          "rules_primary": "If Tie wins the Turkiye vs Paraguay professional FIFA World Cup soccer game originally scheduled for Jun 19, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        },
+        {
+          "name": "Paraguay",
+          "ticker": "KXWCGAME-26JUN19TURPAR-PAR",
+          "yes_ask": 0.25,
+          "yes_bid": 0.24,
+          "no_ask": 0.76,
+          "no_bid": 0.75,
+          "volume": 24506.96,
+          "open_interest": 23171.25,
+          "rules_primary": "If Paraguay wins the Turkiye vs Paraguay professional FIFA World Cup soccer game originally scheduled for Jun 19, 2026 after 90 minutes plus stoppage time (does not include extra time or penalties), then the market resolves to Yes."
+        }
+      ],
+      "outcome_edges": [
+        {
+          "outcome": "Turkiye",
+          "model_prob": 0.443,
+          "kalshi_yes_ask": 0.49,
+          "edge_pct_points": -4.7,
+          "ticker": "KXWCGAME-26JUN19TURPAR-TUR"
+        },
+        {
+          "outcome": "Tie",
+          "model_prob": 0.2814,
+          "kalshi_yes_ask": 0.29,
+          "edge_pct_points": -0.9,
+          "ticker": "KXWCGAME-26JUN19TURPAR-TIE"
+        },
+        {
+          "outcome": "Paraguay",
+          "model_prob": 0.2756,
+          "kalshi_yes_ask": 0.25,
+          "edge_pct_points": 2.6,
+          "ticker": "KXWCGAME-26JUN19TURPAR-PAR"
+        }
+      ],
+      "monte_carlo": [
+        {
+          "contract": "team_win",
+          "model_win_prob": 0.441,
+          "price": 0.49,
+          "edge_pct_points": -4.9,
+          "ev_per_dollar": -0.049,
+          "positive_ev": false,
+          "outcome": "Turkiye"
+        },
+        {
+          "outcome": "Tie",
+          "model_win_prob": 0.2814,
+          "price": 0.29,
+          "edge_pct_points": -0.86,
+          "ev_per_dollar": -0.0086,
+          "positive_ev": false
+        },
+        {
+          "contract": "opp_win",
+          "model_win_prob": 0.277,
+          "price": 0.25,
+          "edge_pct_points": 2.7,
+          "ev_per_dollar": 0.027,
+          "positive_ev": true,
+          "outcome": "Paraguay"
+        }
+      ],
+      "movement_signals": [
+        {
+          "outcome": "Turkiye",
+          "ticker": "KXWCGAME-26JUN19TURPAR-TUR",
+          "signal": "WATCH",
+          "phase": "watchlist",
+          "hours_to_kickoff": 100.4,
+          "fair_prob": 0.443,
+          "kalshi_yes_mid": 0.485,
+          "gap_pct_points": -4.2,
+          "entry_threshold_pts": 6.0,
+          "exit_threshold_pts": 2.0,
+          "target_exit_yes": 0.443,
+          "target_exit_no": 0.557,
+          "kalshi_no_mid": 0.515,
+          "long_yes_hedge": {
+            "entry_side": "YES",
+            "entry_price": 0.49,
+            "hedge_side": "NO",
+            "target_hedge_price_for_lock": 0.5,
+            "current_hedge_ask": 0.52,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "long_no_hedge": {
+            "entry_side": "NO",
+            "entry_price": 0.52,
+            "hedge_side": "YES",
+            "target_hedge_price_for_lock": 0.47,
+            "current_hedge_ask": 0.49,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "lock_no_price_if_buy_yes_at_ask": 0.5,
+          "lock_yes_price_if_buy_no_at_ask": 0.47,
+          "long_yes_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.505,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.5,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.49,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.47,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.05
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.45,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.05
+            }
+          ],
+          "long_no_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.475,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.47,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.46,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.44,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.05
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.42,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.05
+            }
+          ],
+          "reach_score_note": "Heuristic until calibrated from logged price paths; higher means the target hedge price is closer to current market/fair-value convergence.",
+          "action": "Track the gap; wait until the entry window."
+        },
+        {
+          "outcome": "Paraguay",
+          "ticker": "KXWCGAME-26JUN19TURPAR-PAR",
+          "signal": "WATCH",
+          "phase": "watchlist",
+          "hours_to_kickoff": 100.4,
+          "fair_prob": 0.2756,
+          "kalshi_yes_mid": 0.245,
+          "gap_pct_points": 3.1,
+          "entry_threshold_pts": 6.0,
+          "exit_threshold_pts": 2.0,
+          "target_exit_yes": 0.2756,
+          "target_exit_no": 0.7244,
+          "kalshi_no_mid": 0.755,
+          "long_yes_hedge": {
+            "entry_side": "YES",
+            "entry_price": 0.25,
+            "hedge_side": "NO",
+            "target_hedge_price_for_lock": 0.74,
+            "current_hedge_ask": 0.76,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "long_no_hedge": {
+            "entry_side": "NO",
+            "entry_price": 0.76,
+            "hedge_side": "YES",
+            "target_hedge_price_for_lock": 0.23,
+            "current_hedge_ask": 0.25,
+            "current_total_cost": 1.01,
+            "current_locked_profit": -0.01,
+            "current_return_pct": null,
+            "lockable_now": false,
+            "min_profit_required": 0.01,
+            "status": "WAIT_FOR_HEDGE"
+          },
+          "lock_no_price_if_buy_yes_at_ask": 0.74,
+          "lock_yes_price_if_buy_no_at_ask": 0.23,
+          "long_yes_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.745,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.74,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.73,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.16
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.71,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.05
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.69,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.05
+            }
+          ],
+          "long_no_profit_ladder": [
+            {
+              "target_profit": 0.005,
+              "hedge_price": 0.235,
+              "total_cost": 0.995,
+              "required_price_move": 0.015,
+              "reach_score": 0.4
+            },
+            {
+              "target_profit": 0.01,
+              "hedge_price": 0.23,
+              "total_cost": 0.99,
+              "required_price_move": 0.02,
+              "reach_score": 0.27
+            },
+            {
+              "target_profit": 0.02,
+              "hedge_price": 0.22,
+              "total_cost": 0.98,
+              "required_price_move": 0.03,
+              "reach_score": 0.16
+            },
+            {
+              "target_profit": 0.04,
+              "hedge_price": 0.2,
+              "total_cost": 0.96,
+              "required_price_move": 0.05,
+              "reach_score": 0.05
+            },
+            {
+              "target_profit": 0.06,
+              "hedge_price": 0.18,
+              "total_cost": 0.94,
+              "required_price_move": 0.07,
+              "reach_score": 0.05
+            }
+          ],
+          "reach_score_note": "Heuristic until calibrated from logged price paths; higher means the target hedge price is closer to current market/fair-value convergence.",
+          "action": "Track the gap; wait until the entry window."
+        }
+      ],
+      "sentiment_overlay": {
+        "source": "live",
+        "team": {
+          "team": "Turkiye",
+          "search_interest": 0.1,
+          "search_momentum": -80.4,
+          "news_sentiment": -0.004,
+          "news_volume": 20,
+          "social_sentiment": 0.0,
+          "hype_score": -40.05,
+          "headlines": [
+            "Australia vs T\u00fcrkiye Extended Highlights | 2026 FIFA World Cup\u2122 - FOX Sports",
+            "Legendary Roos captain was just axed at World Cup. Here\u2019s what we know\u2026 and a murky theory - Fox Sports",
+            "World Cup scores, results: Brazil and Morocco battle to 1-1 draw while Australia stuns T\u00fcrkiye in the nightcap - Yahoo Sports",
+            "World Cup 2026: England camp hit by tornado warning as Scotland reacts to first victory in 36 years \u2013 as it happened - The Guardian",
+            "World Cup live updates: Socceroos' 14-year high rankings jump delivers final blow to T\u00fcrkiye - Nine.com.au"
+          ]
+        },
+        "opponent": {
+          "team": "Paraguay",
+          "search_interest": 4.1,
+          "search_momentum": 200.0,
+          "news_sentiment": 0.162,
+          "news_volume": 20,
+          "social_sentiment": 0.0,
+          "hype_score": 43.52,
+          "headlines": [
+            "USMNT breaks through with emphatic 4-1 win over Paraguay in World Cup opener - Yahoo Sports",
+            "U.S. wins 4-1 against Paraguay in its first match of 2026 FIFA World Cup - NBC News",
+            "How USMNT thrashed Paraguay to begin 2026 World Cup campaign in stunning style - The New York Times",
+            "US forward Christian Pulisic trains separately in World Cup practice as he recovers from calf injury - Yahoo Sports Canada",
+            "All the celebrities attending the World Cup Group Stage 2026 - Page Six"
+          ]
+        },
+        "hype_gap": -83.57,
+        "assessment": {
+          "model_prob": 0.385,
+          "market_price": 0.49,
+          "edge": -0.105,
+          "edge_pct_points": -10.5,
+          "hype_gap": -83.57,
+          "base_call": "VALUE on opponent (model < market)",
+          "conviction": "MODERATE \u2014 edge exists, hype neutral",
+          "team_hype": -40.05,
+          "opp_hype": 43.52
+        },
+        "note": "Hype is a market-bias overlay only; it is not fed into win probability."
+      },
+      "sum_yes_asks": 1.03,
+      "within_event_arb": null,
+      "recommendation": "DATA NEEDED: model edge is Paraguay +13.9pt, but missing host venue/weather, previous-match rest, previous-match travel chain."
+    }
+  ]
+}

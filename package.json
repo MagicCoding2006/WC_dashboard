@@ -15,7 +15,8 @@
     "rescore": "cd .. && .venv/bin/python -m wc_model.markets.rescore_worldcup --in frontend/public/kalshi_worldcup.json",
     "experiments": "cd .. && .venv/bin/python -m wc_model.model.experiments",
     "refresh:ratings": "cd .. && .venv/bin/python -m wc_model.data.elo --export",
-    "backtest:real": "cd .. && .venv/bin/python -m wc_model.backtest.historical"
+    "backtest:real": "cd .. && .venv/bin/python -m wc_model.backtest.historical",
+    "calibrate": "cd .. && .venv/bin/python -m wc_model.analysis.calibrate_convergence"
   },
   "dependencies": {
     "react": "18.3.1",

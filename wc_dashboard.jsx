@@ -206,32 +206,10 @@ function convergencePlay(match) {
   if (!signals.length) return null;
 
   const plays = signals.map(sig => {
-    const longYes = (sig.gap_pct_points ?? 0) >= 0;          // buy the cheap side
-    const hedge = longYes ? sig.long_yes_hedge || {} : sig.long_no_hedge || {};
-    const ladder = longYes ? sig.long_yes_profit_ladder || [] : sig.long_no_profit_ladder || [];
-    const entrySide = longYes ? "YES" : "NO";
-    const hedgeSide = longYes ? "NO" : "YES";
-
-    const fair = sig.fair_prob;                               // model fair YES prob for this outcome
-    const entry = hedge.entry_price;                          // price we pay to enter, in $ (0..1)
-    if (!Number.isFinite(entry) || !Number.isFinite(fair)) return null;
-
-    // fair value of the side we actually bought
-    const enteredFair = longYes ? fair : 1 - fair;
-    // where the bought side drifts to if the market converges to our fair value
-    const convergePrice = enteredFair;
-    // opposite side's fair price at full convergence = the hedge we'd buy
-    const hedgeFairPrice = 1 - enteredFair;
-    // locked profit per contract at FULL convergence ≈ our edge on that side
-    const maxLockProfit = enteredFair - entry;
-    const totalCostAtConverge = entry + hedgeFairPrice;
-    const maxRoi = totalCostAtConverge > 0 ? maxLockProfit / totalCostAtConverge : null;
-
-    // best heuristic chance the price reaches a profitable hedge level soon
-    const reach = ladder.reduce((mx, s) => Math.max(mx, s.reach_score || 0), 0);
-    // a realistic "first real lock" rung (>= 2¢ profit) for the headline
-    const rung = ladder.find(s => s.target_profit >= 0.02) || ladder[ladder.length - 1] || null;
-
+    const c = sig.convergence;                  // conditional-stopping plan from Python
+    if (!c || !c.ladder || !c.ladder.length) return null;
+    const entrySide = c.entry_side;
+    const hedgeSide = entrySide === "YES" ? "NO" : "YES";
     return {
       outcome: sig.outcome,
       ticker: sig.ticker,
@@ -241,27 +219,35 @@ function convergencePlay(match) {
       gapPts: sig.gap_pct_points,
       absGap: Math.abs(sig.gap_pct_points || 0),
       entrySide, hedgeSide,
-      entry, fair, enteredFair, convergePrice, hedgeFairPrice,
-      maxLockProfit, maxRoi, reach, rung, ladder, hedge,
-      currentHedgeAsk: hedge.current_hedge_ask,
-      lockableNow: !!hedge.lockable_now,
+      entry: c.entry_price,
+      rawFair: c.raw_fair,                       // entered side's model fair value
+      enteredFair: c.raw_fair,                   // alias kept for the "what numbers mean" cards
+      rawEdge: c.raw_edge,
+      confidence: c.confidence,
+      adjFair: c.adjusted_fair,
+      evHold: c.ev_hold_to_settlement,
+      ladder: c.ladder,
+      recommended: c.recommended,                // rung with best expected lock value
+      fullFair: c.full_fair_rung,                // greediest rung (target ≈ raw fair)
+      lockableNow: !!c.lockable_now,
     };
   }).filter(Boolean);
 
   if (!plays.length) return null;
-  // headline play = the most mispriced outcome with a positive lockable edge
-  const profitable = plays.filter(p => p.maxLockProfit > 0);
-  const pool = profitable.length ? profitable : plays;
-  return pool.sort((a, b) => b.absGap - a.absGap)[0];
+  // headline play = the side with the best *expected* lock value (P(hit) × profit),
+  // not merely the biggest paper mispricing.
+  return plays.sort((a, b) =>
+    (b.recommended?.expected_lock || 0) - (a.recommended?.expected_lock || 0))[0];
 }
 
 function recommendation(m, a) {
   if (m.arb) return { type: "ARB", text: `Lock ${m.arb.return_pct}% risk-free`, tone: "arb" };
   const play = convergencePlay(m);
-  if (play && play.maxLockProfit > 0.02 && play.absGap >= 6) {
+  if (play && play.recommended && play.recommended.expected_lock > 0.01 && play.absGap >= 4) {
+    const r = play.recommended;
     return {
       type: "CONVERGENCE",
-      text: `Buy ${play.outcome} ${play.entrySide} → lock ~${roiPct(play.maxRoi)}`,
+      text: `Buy ${play.outcome} ${play.entrySide} @ ${cents(play.entry)} → ~${cents(r.expected_lock)}/ct exp.`,
       tone: "edge",
     };
   }
@@ -290,15 +276,21 @@ function cents(v) {
 function roiPct(v) {
   return Number.isFinite(v) ? `${(v * 100).toFixed(0)}%` : "—";
 }
-function ladderRoi(step) {
-  return step?.total_cost > 0 ? step.target_profit / step.total_cost : null;
+function prob(v) {
+  return Number.isFinite(v) ? `${Math.round(v * 100)}%` : "—";
 }
-function reachWord(r) {
-  if (!Number.isFinite(r)) return "unknown";
-  if (r >= 0.6) return "good";
-  if (r >= 0.35) return "fair";
-  if (r >= 0.15) return "slim";
-  return "low (too early)";
+function hitTone(p) {
+  if (!Number.isFinite(p)) return "var(--dim)";
+  if (p >= 0.6) return "var(--up)";
+  if (p >= 0.35) return "var(--amber)";
+  return "var(--down)";
+}
+function confWord(c) {
+  if (!Number.isFinite(c)) return "unknown";
+  if (c >= 0.85) return "high";
+  if (c >= 0.6) return "moderate";
+  if (c >= 0.45) return "low";
+  return "very low";
 }
 
 /* ---------- plain-English "what the numbers mean" ---------- */
@@ -372,18 +364,23 @@ function numberStories(match, play) {
     }
   }
 
-  // 4. Monte Carlo EV on the headline outcome (simulated expected profit per $1)
+  // 4. Monte Carlo EV — for the SIDE WE ACTUALLY BUY (YES or NO), not the raw
+  //    YES contract. The MC table stores the YES hit-rate per outcome; for a NO
+  //    play the hit-rate is its complement and the price is the NO ask we pay.
   const mc = play ? match.raw?.monte_carlo?.find(x => x.outcome === play.outcome) : null;
-  if (mc && Number.isFinite(mc.ev_per_dollar)) {
-    const c = Math.round(mc.ev_per_dollar * 100);
+  if (mc && Number.isFinite(mc.model_win_prob) && Number.isFinite(play.entry)) {
+    const longYes = play.entrySide === "YES";
+    const simProb = longYes ? mc.model_win_prob : 1 - mc.model_win_prob; // chance the bought side pays out
+    const evDollar = simProb - play.entry;                              // binary contract pays $1
+    const c = Math.round(evDollar * 100);
     stories.push({
-      label: "Simulated EV",
+      label: `Simulated EV · ${play.outcome} ${play.entrySide}`,
       value: `${c >= 0 ? "+" : ""}${c}¢ per $1`,
-      tone: mc.ev_per_dollar >= 0 ? "up" : "down",
-      meaning: `Across 25,000 simulated versions of this match (with uncertainty on the probabilities), buying ${play.outcome} at ${cents(mc.price)} returns ${c >= 0 ? "an average profit" : "an average loss"} of ${Math.abs(c)}¢ on every $1.`,
-      bias: mc.ev_per_dollar >= 0
-        ? `Positive even after stress-testing — the edge survives noise.`
-        : `Negative once stressed — treat the headline edge with caution.`,
+      tone: evDollar >= 0 ? "up" : "down",
+      meaning: `Across 25,000 simulated versions of this match, the model gives "${play.outcome} ${play.entrySide}" a ${(simProb * 100).toFixed(0)}% chance to pay out. Buying it at ${cents(play.entry)} therefore returns ${c >= 0 ? "an average profit" : "an average loss"} of ${Math.abs(c)}¢ on every $1.`,
+      bias: evDollar >= 0
+        ? `Positive even after stress-testing the probabilities — the edge on the side you're buying survives noise.`
+        : `Negative once stressed — the side you're buying may not be the value here.`,
     });
   }
 
@@ -444,9 +441,11 @@ export default function App() {
   const edgeCount = matches.filter(m => !m.arb && analyses[m.id].bestEdge.edge > 5).length;
 
   // play economics on the bankroll
-  const playPairCost = play ? play.entry + play.hedgeFairPrice : null;
-  const playPairs = play && playPairCost ? Math.floor(BANKROLL / playPairCost) : 0;
-  const playLockTotal = play ? play.maxLockProfit * playPairs : 0;
+  // bankroll math on the RECOMMENDED lock rung (best expected value)
+  const recRung = play?.recommended || null;
+  const playPairCost = recRung ? play.entry + recRung.hedge_price : null;
+  const playPairs = playPairCost ? Math.floor(BANKROLL / playPairCost) : 0;
+  const playExpValue = recRung ? recRung.expected_lock * playPairs : 0;
 
   return (
     <div className="term">
@@ -542,6 +541,19 @@ export default function App() {
         .pm .pml { font-size: 10px; color: var(--dim); letter-spacing:.08em; text-transform:uppercase; }
         .pm .pmv { font-family:'JetBrains Mono',monospace; font-size: 17px; font-weight: 600; margin-top: 4px; }
         .play .caveat { font-size: 11.5px; color: var(--dim); line-height:1.5; margin-top: 14px; border-top: 1px solid var(--line); padding-top: 12px; }
+
+        /* lock ladder: ROI vs probability */
+        .laddergrid { margin-top: 16px; border:1px solid var(--line); border-radius: 10px; overflow:hidden; background: rgba(10,14,20,.35); }
+        .ladderhead, .ladderrow { display:grid; grid-template-columns: 1.3fr 1fr 0.9fr 1.5fr 0.9fr; gap: 8px; align-items:center; padding: 8px 13px; }
+        .ladderhead { font-family:'JetBrains Mono',monospace; font-size: 9.5px; letter-spacing:.06em; text-transform:uppercase; color: var(--dim); border-bottom: 1px solid var(--line); }
+        .ladderrow { font-size: 12px; border-top: 1px solid rgba(31,41,55,.5); }
+        .ladderrow:first-of-type { border-top: none; }
+        .ladderrow.rec { background: rgba(76,201,240,.10); }
+        .ladderrow .mono { font-family:'JetBrains Mono',monospace; }
+        .ladderrow em { color: var(--cyan); font-style: normal; font-size: 10px; font-family:'JetBrains Mono',monospace; }
+        .hitcell { position:relative; display:flex; align-items:center; gap:8px; height: 16px; }
+        .hitcell i { position:absolute; left:0; top:50%; transform:translateY(-50%); height: 6px; border-radius: 3px; opacity:.35; }
+        .hitcell b { position:relative; font-family:'JetBrains Mono',monospace; font-size: 12px; }
 
         /* number stories */
         .stories { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -705,15 +717,17 @@ export default function App() {
               ) : play ? (
                 <div className={`play${play.lockableNow ? " lock" : ""}`}>
                   <div className="ph">
-                    The play · {play.lockableNow ? "hedge lockable right now" : "wait-for-convergence trade"}
+                    The play · {play.lockableNow ? "hedge lockable right now" : "conditional convergence trade"}
                   </div>
                   <div className="story">
                     <span className="buy">Buy {play.outcome} {play.entrySide}</span> on Kalshi now at <b>{cents(play.entry)}</b>.
-                    The model's fair price is <b>{cents(play.convergePrice)}</b>, so the market looks {play.maxLockProfit >= 0 ? "too cheap" : "too rich"} by{" "}
-                    <b>{Math.abs(play.maxLockProfit * 100).toFixed(1)}¢</b>.{" "}
-                    <span className="wait">Then wait</span> for the price to drift toward fair value. As it does, the other side ({play.hedgeSide}){" "}
-                    gets cheap — once you can buy {play.hedgeSide} near <b>{cents(play.hedgeFairPrice)}</b>, your two sides cost under $1 and{" "}
-                    <span className="lock">you lock ~{cents(play.maxLockProfit)} of guaranteed profit per contract</span> ({roiPct(play.maxRoi)} ROI), win or lose.
+                    The model's raw fair value is <b>{cents(play.rawFair)}</b> — a <b>{cents(Math.abs(play.rawEdge))}</b> {play.rawEdge >= 0 ? "discount" : "premium"}.
+                    {" "}But inputs are missing, so confidence is <b>{confWord(play.confidence)}</b> ({prob(play.confidence)}) and we trust fair only out to{" "}
+                    <b>{cents(play.adjFair)}</b>. <span className="wait">Then wait</span> for the price to drift up: the best risk-adjusted exit is to{" "}
+                    <span className="lock">hedge {play.hedgeSide} around {cents(recRung?.hedge_price)}</span> when {play.outcome} {play.entrySide} reaches{" "}
+                    <b>{cents(recRung?.target)}</b> — that locks <b>{cents(recRung?.lock_profit)}</b>/ct ({roiPct(recRung?.lock_roi)}) with an estimated{" "}
+                    <b style={{ color: hitTone(recRung?.hit_prob) }}>{prob(recRung?.hit_prob)} chance</b> of getting there before kickoff. Expected value{" "}
+                    <b>{cents(recRung?.expected_lock)}</b>/ct.
                   </div>
 
                   <div className="path">
@@ -724,30 +738,55 @@ export default function App() {
                     </div>
                     <div className="parrow">→</div>
                     <div className="pnode">
-                      <div className="pt" style={{ color: "var(--amber)" }}>{cents(play.convergePrice)}</div>
-                      <div className="pl">2 · Converge</div>
-                      <div className="pd">Price drifts to model fair value</div>
+                      <div className="pt" style={{ color: "var(--amber)" }}>{cents(recRung?.target)}</div>
+                      <div className="pl">2 · Reaches lock zone</div>
+                      <div className="pd">{prob(recRung?.hit_prob)} modeled chance before kickoff</div>
                     </div>
                     <div className="parrow">→</div>
                     <div className="pnode">
-                      <div className="pt" style={{ color: "var(--cyan)" }}>{cents(play.hedgeFairPrice)}</div>
+                      <div className="pt" style={{ color: "var(--cyan)" }}>{cents(recRung?.hedge_price)}</div>
                       <div className="pl">3 · Hedge {play.hedgeSide}</div>
-                      <div className="pd">Buy the other side to lock the spread</div>
+                      <div className="pd">Locks {cents(recRung?.lock_profit)}/ct, win or lose</div>
                     </div>
                   </div>
 
                   <div className="playmetrics">
-                    <div className="pm"><div className="pml">Lock / contract</div><div className="pmv" style={{ color: play.maxLockProfit >= 0 ? "var(--up)" : "var(--down)" }}>{cents(play.maxLockProfit)}</div></div>
-                    <div className="pm"><div className="pml">ROI at convergence</div><div className="pmv" style={{ color: play.maxRoi >= 0 ? "var(--up)" : "var(--down)" }}>{roiPct(play.maxRoi)}</div></div>
-                    <div className="pm"><div className="pml">Chance it gets there</div><div className="pmv">{reachWord(play.reach)}</div></div>
-                    <div className="pm"><div className="pml">If filled on ${BANKROLL}</div><div className="pmv" style={{ color: "var(--up)" }}>${playLockTotal.toFixed(0)}</div></div>
+                    <div className="pm"><div className="pml">Recommended lock</div><div className="pmv">{cents(recRung?.target)} → {roiPct(recRung?.lock_roi)}</div></div>
+                    <div className="pm"><div className="pml">Chance hedge fills</div><div className="pmv" style={{ color: hitTone(recRung?.hit_prob) }}>{prob(recRung?.hit_prob)}</div></div>
+                    <div className="pm"><div className="pml">Expected value</div><div className="pmv" style={{ color: recRung?.expected_lock >= 0 ? "var(--up)" : "var(--down)" }}>{cents(recRung?.expected_lock)}/ct</div></div>
+                    <div className="pm"><div className="pml">Exp. on ${BANKROLL}</div><div className="pmv" style={{ color: "var(--up)" }}>${playExpValue.toFixed(0)}</div></div>
+                  </div>
+
+                  {/* lock ladder — ROI vs probability of getting there */}
+                  <div className="laddergrid">
+                    <div className="ladderhead">
+                      <span>Hedge when {play.entrySide} hits</span><span>Buy {play.hedgeSide} ≤</span>
+                      <span>Lock ROI</span><span>Chance before KO</span><span>Exp. value</span>
+                    </div>
+                    {play.ladder.map(r => {
+                      const isRec = recRung && r.target === recRung.target;
+                      return (
+                        <div className={`ladderrow${isRec ? " rec" : ""}`} key={r.target}>
+                          <span className="mono">{cents(r.target)}{isRec && <em> ← best</em>}</span>
+                          <span className="mono">{cents(r.hedge_price)}</span>
+                          <span className="mono">{roiPct(r.lock_roi)}</span>
+                          <span className="hitcell">
+                            <i style={{ width: `${(r.hit_prob || 0) * 100}%`, background: hitTone(r.hit_prob) }} />
+                            <b style={{ color: hitTone(r.hit_prob) }}>{prob(r.hit_prob)}</b>
+                          </span>
+                          <span className="mono" style={{ color: "var(--up)" }}>{cents(r.expected_lock)}</span>
+                        </div>
+                      );
+                    })}
                   </div>
 
                   <div className="caveat">
-                    This is <b>not</b> instant arbitrage — the lock only happens <b>if</b> the price actually converges toward fair value.
+                    This is <b>not</b> instant arbitrage — the lock only pays if the price actually reaches a hedge level.
+                    "Chance before KO" is a mean-reverting price-path model (OU) drifting toward the confidence-adjusted fair of {cents(play.adjFair)};
+                    bigger locks need a bigger move, so their odds fall. Lower rungs lock less but fill more reliably — the highlighted row maximizes ROI × probability.
                     Timing: <b>{play.phase.replace(/_/g, " ")}</b>{Number.isFinite(play.hours) ? ` · ${Math.round(play.hours)}h to kickoff` : ""}.
-                    "{reachWord(play.reach)}" is a rough chance the move happens soon (heuristic until enough price paths are logged).
-                    {play.lockableNow && <> The hedge is <b style={{ color: "var(--up)" }}>already lockable</b> at the current {play.hedgeSide} ask of {cents(play.currentHedgeAsk)} — you don't even need to wait.</>}
+                    {play.lockableNow && <> The hedge is <b style={{ color: "var(--up)" }}>already lockable now</b> — you don't even need to wait.</>}
+                    {" "}If it never converges, the fallback is holding {play.entrySide} to settlement (EV {cents(play.evHold)}/ct at adjusted fair).
                   </div>
                 </div>
               ) : null}
@@ -894,21 +933,32 @@ export default function App() {
 
                 {play?.ladder?.length > 0 && (
                   <details className="more">
-                    <summary>Hedge profit ladder · {play.outcome} {play.entrySide}</summary>
+                    <summary>Convergence model · {play.outcome} {play.entrySide} (every rung)</summary>
                     <div className="inner">
                       <Explain>
-                        Each rung: if you can buy {play.hedgeSide} at or below this price, you lock the listed profit. "Reach" is the
-                        heuristic chance the market gets there. Higher profit needs a bigger move, so reach drops.
+                        The full lock ladder behind the headline. <b>Lock ROI</b> is the guaranteed return if you hedge at that price.
+                        <b> Hit prob</b> is the OU price-path model's chance the market reaches it before kickoff. <b>Exp. value</b> = ROI's
+                        profit × hit prob; <b>strategy EV</b> also credits the fallback of holding to settlement if it never converges
+                        (EV {cents(play.evHold)}/ct). Confidence {prob(play.confidence)} → adjusted fair {cents(play.adjFair)}.
                       </Explain>
-                      <div className="ladder">
-                        {play.ladder.map(step => (
-                          <div className="ladderitem" key={`${play.ticker}-${step.target_profit}`}>
-                            <div className="lt">lock {cents(step.target_profit)} · ROI {fmtPct(ladderRoi(step))}</div>
-                            <div className="lv">hedge {play.hedgeSide} ≤ <b>{cents(step.hedge_price)}</b> · reach {(step.reach_score * 100).toFixed(0)}%</div>
-                            <div className="bar"><i style={{ width: `${step.reach_score * 100}%` }} /></div>
-                          </div>
-                        ))}
-                      </div>
+                      <table className="ctable">
+                        <thead>
+                          <tr><th>Hedge at ({play.entrySide})</th><th>Buy {play.hedgeSide} ≤</th><th>Lock</th><th>ROI</th><th>Hit prob</th><th>Exp val</th><th>Strat EV</th></tr>
+                        </thead>
+                        <tbody>
+                          {play.ladder.map(r => (
+                            <tr key={`${play.ticker}-${r.target}`}>
+                              <td className="clab">{cents(r.target)}</td>
+                              <td>{cents(r.hedge_price)}</td>
+                              <td>{cents(r.lock_profit)}</td>
+                              <td>{roiPct(r.lock_roi)}</td>
+                              <td style={{ color: hitTone(r.hit_prob) }}>{prob(r.hit_prob)}</td>
+                              <td style={{ color: "var(--up)" }}>{cents(r.expected_lock)}</td>
+                              <td>{cents(r.strategy_ev)}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   </details>
                 )}

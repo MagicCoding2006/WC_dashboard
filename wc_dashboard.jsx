@@ -206,11 +206,23 @@ function convergencePlay(match) {
   const signals = match.raw?.movement_signals || [];
   if (!signals.length) return null;
 
+  // Which side is the model's favorite (higher win prob)? Used to prefer fading the
+  // favorite (NO on favored) over backing a longshot (YES on unfavored).
+  const favoredName = (match.model?.p_team_win ?? 0) >= (match.model?.p_opp_win ?? 0)
+    ? match.team : match.opponent;
+
   const plays = signals.map(sig => {
     const c = sig.convergence;                  // conditional-stopping plan from Python
     if (!c || !c.ladder || !c.ladder.length) return null;
     const entrySide = c.entry_side;
     const hedgeSide = entrySide === "YES" ? "NO" : "YES";
+    const onFavored = sig.outcome === favoredName;
+    // Preference tier (higher = better): buying NO on the favorite is preferred;
+    // buying YES on the underdog is deprioritized. Same directional view, but the
+    // NO-on-favorite contract pays out far more often (higher prob, lower variance).
+    const prefRank = (entrySide === "NO" && onFavored) ? 2
+      : (entrySide === "YES" && !onFavored) ? 0
+      : 1;
     return {
       outcome: sig.outcome,
       ticker: sig.ticker,
@@ -219,7 +231,7 @@ function convergencePlay(match) {
       hours: sig.hours_to_kickoff,
       gapPts: sig.gap_pct_points,
       absGap: Math.abs(sig.gap_pct_points || 0),
-      entrySide, hedgeSide,
+      entrySide, hedgeSide, onFavored, prefRank,
       entry: c.entry_price,
       rawFair: c.raw_fair,                       // entered side's model fair value
       enteredFair: c.raw_fair,                   // alias kept for the "what numbers mean" cards
@@ -235,10 +247,16 @@ function convergencePlay(match) {
   }).filter(Boolean);
 
   if (!plays.length) return null;
-  // headline play = the side with the best *expected* lock value (P(hit) × profit),
-  // not merely the biggest paper mispricing.
-  return plays.sort((a, b) =>
-    (b.recommended?.expected_lock || 0) - (a.recommended?.expected_lock || 0))[0];
+  // Headline play: prefer NO-on-favored over YES-on-unfavored first, then break ties
+  // by best net strategy EV. Only let the preference reorder genuinely actionable
+  // plays so we never surface a losing NO-on-favored over a clearly better trade.
+  const evOf = p => (p.recommended?.strategy_ev ?? -1);
+  const actionable = p => evOf(p) > 0;
+  return plays.sort((a, b) => {
+    if (actionable(a) !== actionable(b)) return actionable(a) ? -1 : 1;
+    if (b.prefRank !== a.prefRank) return b.prefRank - a.prefRank;
+    return evOf(b) - evOf(a);
+  })[0];
 }
 
 function recommendation(m, a) {
@@ -412,6 +430,8 @@ export default function App() {
   const [selected, setSelected] = useState(SAMPLE_MATCHES[1].id);
   const [dataStatus, setDataStatus] = useState("Sample data");
   const [modelQuality, setModelQuality] = useState(null);
+  const [query, setQuery] = useState("");
+  const [filterTone, setFilterTone] = useState("all"); // all | arb | edge | opps
 
   useEffect(() => {
     fetch(`${KALSHI_DATA_URL}?t=${Date.now()}`)
@@ -441,6 +461,21 @@ export default function App() {
 
   const arbCount = matches.filter(m => m.arb).length;
   const edgeCount = matches.filter(m => !m.arb && analyses[m.id].bestEdge.edge > 5).length;
+
+  // search + filter for the match list (so 50+ matches stay browsable, not a wall)
+  const q = query.trim().toLowerCase();
+  const visibleMatches = matches.filter(m => {
+    const text = `${m.team} ${m.opponent} ${m.venue}`.toLowerCase();
+    if (q && !text.includes(q)) return false;
+    if (filterTone === "all") return true;
+    const r = recommendation(m, analyses[m.id]);
+    if (filterTone === "arb") return r.type === "ARB";
+    if (filterTone === "edge") return r.type === "CONVERGENCE" || r.type === "EDGE";
+    if (filterTone === "opps") return r.type !== "PASS";
+    return true;
+  });
+  const filtersActive = q !== "" || filterTone !== "all";
+  const resetFilters = () => { setQuery(""); setFilterTone("all"); };
 
   // bankroll math on the RECOMMENDED lock rung. Capital here is the COMPLETED-hedge
   // cost (entry + hedge), since locking the spread deploys both legs.
@@ -482,7 +517,33 @@ export default function App() {
         @media (max-width: 820px) { .grid { grid-template-columns: 1fr; } }
 
         /* match list */
-        .list { display: flex; flex-direction: column; gap: 8px; }
+        /* search + filters */
+        .searchbar { margin-bottom: 12px; }
+        .searchrow { display:flex; align-items:center; gap: 8px; background: var(--panel); border:1px solid var(--line);
+          border-radius: 10px; padding: 9px 12px; transition: border-color .15s; }
+        .searchrow:focus-within { border-color: var(--cyan); }
+        .searchrow .sicon { color: var(--dim); font-size: 15px; }
+        .sinput { flex:1; background: transparent; border: none; outline: none; color: var(--ink);
+          font-family: 'Space Grotesk', sans-serif; font-size: 13px; }
+        .sinput::placeholder { color: var(--dimmer); }
+        .sclear { background: var(--panel2); border:1px solid var(--line); color: var(--dim); border-radius: 6px;
+          width: 20px; height: 20px; cursor: pointer; line-height: 1; font-size: 14px; }
+        .sclear:hover { color: var(--ink); border-color: var(--dimmer); }
+        .filterchips { display:flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+        .fchip { background: var(--panel); border:1px solid var(--line); color: var(--dim); border-radius: 999px;
+          padding: 4px 11px; font-size: 11px; font-family:'JetBrains Mono',monospace; cursor: pointer; transition: all .15s; }
+        .fchip:hover { border-color: var(--dimmer); color: var(--ink); }
+        .fchip.on { background: var(--panel2); border-color: var(--cyan); color: var(--cyan); }
+        .searchmeta { display:flex; align-items:center; justify-content: space-between; margin-top: 9px;
+          font-size: 11px; color: var(--dim); font-family:'JetBrains Mono',monospace; }
+        .searchmeta b { color: var(--ink); }
+        .sreset { background: none; border: none; color: var(--cyan); cursor: pointer; font-size: 11px;
+          font-family:'JetBrains Mono',monospace; padding: 0; }
+        .sreset:hover { text-decoration: underline; }
+        .emptylist { background: var(--panel); border:1px dashed var(--line); border-radius: 10px; padding: 18px 14px;
+          color: var(--dim); font-size: 12px; text-align: center; }
+
+        .list { display: flex; flex-direction: column; gap: 8px; max-height: 78vh; overflow-y: auto; padding-right: 4px; }
         .mrow { background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
           padding: 13px 14px; cursor: pointer; transition: border-color .15s, background .15s; text-align: left; width:100%; }
         .mrow:hover { border-color: var(--dimmer); }
@@ -659,26 +720,66 @@ export default function App() {
 
         <div className="grid">
           {/* match list */}
-          <nav className="list" aria-label="Matches">
-            {matches.map(m => {
-              const ma = analyses[m.id];
-              const r = recommendation(m, ma);
-              return (
-                <button key={m.id} className={`mrow${m.id === selected ? " on" : ""}`}
-                  onClick={() => setSelected(m.id)} aria-pressed={m.id === selected}>
-                  <div className="mt">
-                    <span className="vs">{m.team} <span style={{ color: "var(--dim)" }}>v</span> {m.opponent}</span>
-                    <span className="ko">{m.kickoff}</span>
-                  </div>
-                  <div className="meta">
-                    <span className={`chip ${r.tone}`}>{r.type}</span>
-                    {r.type !== "PASS" && <span className="mono" style={{ fontSize: 11, color: r.tone === "arb" ? "var(--arb)" : "var(--edge)" }}>{r.text}</span>}
-                    <span className="venue">{m.venue}</span>
-                  </div>
-                </button>
-              );
-            })}
-          </nav>
+          <div>
+            <div className="searchbar">
+              <div className="searchrow">
+                <span className="sicon">⌕</span>
+                <input
+                  className="sinput"
+                  type="text"
+                  placeholder="Search team, opponent, or venue…"
+                  value={query}
+                  onChange={e => setQuery(e.target.value)}
+                  aria-label="Search matches"
+                />
+                {query && (
+                  <button className="sclear" onClick={() => setQuery("")} aria-label="Clear search">×</button>
+                )}
+              </div>
+              <div className="filterchips">
+                {[
+                  ["all", `All ${matches.length}`],
+                  ["opps", "Opportunities"],
+                  ["arb", `Arbs ${arbCount}`],
+                  ["edge", "Convergence/Edge"],
+                ].map(([key, label]) => (
+                  <button
+                    key={key}
+                    className={`fchip${filterTone === key ? " on" : ""}`}
+                    onClick={() => setFilterTone(key)}
+                    aria-pressed={filterTone === key}
+                  >{label}</button>
+                ))}
+              </div>
+              <div className="searchmeta">
+                <span>Showing <b>{visibleMatches.length}</b> of {matches.length}</span>
+                {filtersActive && <button className="sreset" onClick={resetFilters}>Reset filters</button>}
+              </div>
+            </div>
+            <nav className="list" aria-label="Matches">
+              {visibleMatches.length === 0 && (
+                <div className="emptylist">No matches match your search. <button className="sreset" onClick={resetFilters}>Reset</button></div>
+              )}
+              {visibleMatches.map(m => {
+                const ma = analyses[m.id];
+                const r = recommendation(m, ma);
+                return (
+                  <button key={m.id} className={`mrow${m.id === selected ? " on" : ""}`}
+                    onClick={() => setSelected(m.id)} aria-pressed={m.id === selected}>
+                    <div className="mt">
+                      <span className="vs">{m.team} <span style={{ color: "var(--dim)" }}>v</span> {m.opponent}</span>
+                      <span className="ko">{m.kickoff}</span>
+                    </div>
+                    <div className="meta">
+                      <span className={`chip ${r.tone}`}>{r.type}</span>
+                      {r.type !== "PASS" && <span className="mono" style={{ fontSize: 11, color: r.tone === "arb" ? "var(--arb)" : "var(--edge)" }}>{r.text}</span>}
+                      <span className="venue">{m.venue}</span>
+                    </div>
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
 
           {/* detail */}
           <section className="detail">
@@ -721,7 +822,8 @@ export default function App() {
               ) : play ? (
                 <div className={`play${play.lockableNow ? " lock" : ""}`}>
                   <div className="ph">
-                    The play · {play.lockableNow ? "hedge lockable right now" : "conditional convergence trade"}
+                    The play · {play.entrySide === "NO" && play.onFavored ? "fade the favorite (buy NO) · " : ""}
+                    {play.lockableNow ? "hedge lockable right now" : "conditional convergence trade"}
                   </div>
                   <div className="story">
                     <span className="buy">Buy {play.outcome} {play.entrySide}</span> on Kalshi now at <b>{cents(play.entry)}</b>.

@@ -10,7 +10,7 @@
     "dev": "vite --port 5180 --strictPort",
     "build": "vite build",
     "preview": "vite preview --port 4180 --strictPort",
-    "refresh:data": "cd .. && .venv/bin/python -m wc_model.markets.kalshi_worldcup --limit 25 --log --out frontend/public/kalshi_worldcup.json",
+    "refresh:data": "cd .. && .venv/bin/python -m wc_model.markets.kalshi_worldcup --limit 0 --log --out frontend/public/kalshi_worldcup.json",
     "refresh:sentiment": "cd .. && .venv/bin/python -m wc_model.markets.kalshi_worldcup --limit 10 --log --sentiment --out frontend/public/kalshi_worldcup.json",
     "rescore": "cd .. && .venv/bin/python -m wc_model.markets.rescore_worldcup --in frontend/public/kalshi_worldcup.json",
     "experiments": "cd .. && .venv/bin/python -m wc_model.model.experiments",
